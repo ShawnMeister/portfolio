@@ -1,8 +1,10 @@
- .App {
+.App {
   text-align: center;
   background: #61dafb;
   height: 100vh;
-  overflow:auto;
+  cursor: url("./Images/../battleAxe.png"), move;
+  overflow: auto;
+  font-family: monospace;
 }
 
 /* .body {
@@ -21,7 +23,6 @@
   left: 0;
 }
  */
-
 
 /* .App-header {
   background-color: #282c34;

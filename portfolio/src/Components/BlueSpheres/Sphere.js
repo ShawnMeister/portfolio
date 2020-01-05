@@ -9,6 +9,11 @@ import { random } from "lodash";
 import { useFrame } from "react-three-fiber";
 
 export default () => {
+
+  //mutable objects can be changed after they are created
+  //the useRef method is used to keep track everytime something is rendered
+  //it is generally used for counter variables, or variables that we want to keep
+  //track of outside the scope of the normal rendering of React
   const mesh = useRef();
   const time = useRef(0);
 
@@ -19,7 +24,7 @@ export default () => {
 
   // position
   const position = useMemo(() => {
-    return [random(-5, 5, true), random(-10, 10, true), random(-5, 5, true)];
+    return [random(-5, 50, true), random(-10, 10, true), random(-5, 5, true)];
   }, []);
 
   // random time mod factor
@@ -27,7 +32,7 @@ export default () => {
 
   // color
   let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
-
+color = 0x61dafb;
 
   //useEffect of the activeState
   useEffect(() => {
@@ -35,6 +40,7 @@ export default () => {
   }, [isActive]);
 
   // raf loop
+  //this is what causes motion of the spheres
   useFrame(() => {
     mesh.current.rotation.y += 0.01 * timeMod;
     if (isActiveRef.current) {
@@ -43,14 +49,8 @@ export default () => {
     }
   });
 
-  // Events
-  const onHover = useCallback(
-    (e, value) => {
-      e.stopPropagation();
-      setIsHovered(value);
-    },
-    [setIsHovered]
-  );
+
+
 
   const onClick = useCallback(
     e => {
@@ -64,14 +64,12 @@ export default () => {
     <mesh
       ref={mesh}
       position={position}
-      onClick={e => onClick(e)}
-      onPointerOver={e => onHover(e, true)}
-      onPointerOut={e => onHover(e, false)}
+
     >
 
-{/* Below in args, the first argument is the size of the spheres
+      {/* Below in args, the first argument is the size of the spheres
 the second argument is  */}
-      <sphereBufferGeometry attach="geometry" args={[0.047, 0.05, 0.29]} />
+      <sphereBufferGeometry attach="geometry" args={[0.00647, 0.00005, 7]} />
 
       <meshStandardMaterial
         attach="material"

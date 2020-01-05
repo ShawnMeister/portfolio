@@ -5,17 +5,48 @@ import React, {
   useEffect,
   useCallback
 } from "react";
-import { random } from "lodash";
+//import { random } from "lodash";
 import { useFrame } from "react-three-fiber";
 
-export default () => {
+/* 
 
-  //mutable objects can be changed after they are created
-  //the useRef method is used to keep track everytime something is rendered
-  //it is generally used for counter variables, or variables that we want to keep
-  //track of outside the scope of the normal rendering of React
+magic button that goes to portfolio from landing Page
+
+
+
+const radius 8
+widthSegment goes from 31 to 3 while 
+heightsegment goes from 32 to 4
+const phistart 6
+
+philength goes from 6.3 to 0 while 
+thetastart goes from 6 to 0
+
+philength goes back to 6.3 and goes to 0 while
+thetalength drops from 6.3 to 0
+
+
+radius 
+widthSegments
+heightSegments
+phiStart
+phiLength
+thetaStart
+thetaLength
+
+
+
+*/
+
+
+export default () => {
   const mesh = useRef();
   const time = useRef(0);
+  let widSeg = 3;
+  let heiSeg = 4;
+  let philen = 6.3;
+  let thesta = 6;
+  let thelen = 6.3;
 
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -23,15 +54,21 @@ export default () => {
   const isActiveRef = useRef(isActive);
 
   // position
+  /*   const position = useMemo(() => {
+      return [random(-5, 5, true), random(-10, 10, true), random(-5, 5, true)];
+    }, []); */
+
   const position = useMemo(() => {
-    return [random(-5, 5, true), random(-10, 10, true), random(-5, 5, true)];
+    return [0, 0, 0];
   }, []);
 
   // random time mod factor
-  const timeMod = useMemo(() => random(0.1, 4, true), []);
+  /*  const timeMod = useMemo(() => random(0.1, 4, true), []); */
+
+  //const timeMod = useMemo(() => 2, []);
 
   // color
-  let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
+  // let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
 
 
   //useEffect of the activeState
@@ -40,17 +77,29 @@ export default () => {
   }, [isActive]);
 
   // raf loop
-  //this is what causes motion of the spheres
+  //that means request animation frame
   useFrame(() => {
-    mesh.current.rotation.y += 0.01 * timeMod;
+    /* mesh.current.rotation.y += 0.01 * timeMod; */
+    mesh.current.rotation.y += 0.01;
     if (isActiveRef.current) {
       time.current += 0.03;
-      mesh.current.position.y = position[1] + Math.sin(time.current) * 0.4;
+      /* mesh.current.position.y = position[1] + Math.sin(time.current) * 0.4; */
+      widSeg -= 10;
+      heiSeg -= 10;
+
+      mesh.current.position.y = position[1];
+
     }
   });
 
-
-
+  // Events
+  const onHover = useCallback(
+    (e, value) => {
+      e.stopPropagation();
+      setIsHovered(value);
+    },
+    [setIsHovered]
+  );
 
   const onClick = useCallback(
     e => {
@@ -64,18 +113,20 @@ export default () => {
     <mesh
       ref={mesh}
       position={position}
-
+      onClick={e => onClick(e)}
+      onPointerOver={e => onHover(e, true)}
+      onPointerOut={e => onHover(e, false)}
     >
 
-{/* Below in args, the first argument is the size of the spheres
+      {/* Below in args, the first argument is the size of the spheres
 the second argument is  */}
-      <sphereBufferGeometry attach="geometry" args={[0.047, 0.05, 0.29]} />
-
+      <sphereBufferGeometry attach="geometry" args={[1, { widSeg }, { heiSeg }, 6, 6.3, 6.3, 6.3]} />
+      {/* ,6,{philen},{thesta},{thelen} */}
       <meshStandardMaterial
         attach="material"
-        color={{color: 0xff0000}}
-        roughness={0.6}
-        metalness={0.1}
+        color={0x39ff14}
+        roughness={0.5}
+        metalness={0.5}
       />
     </mesh>
   );
