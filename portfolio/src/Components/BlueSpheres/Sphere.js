@@ -2,8 +2,7 @@ import React, {
   useMemo,
   useRef,
   useState,
-  useEffect,
-  useCallback
+  useEffect
 } from "react";
 import { random } from "lodash";
 import { useFrame } from "react-three-fiber";
@@ -17,8 +16,8 @@ export default () => {
   const mesh = useRef();
   const time = useRef(0);
 
-  const [isHovered, setIsHovered] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+
+  const [isActive] = useState(false);
 
   const isActiveRef = useRef(isActive);
 
@@ -31,8 +30,7 @@ export default () => {
   const timeMod = useMemo(() => random(0.1, 4, true), []);
 
   // color
-  let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
-color = 0x61dafb;
+  let color = 0x61dafb;
 
   //useEffect of the activeState
   useEffect(() => {
@@ -52,13 +50,6 @@ color = 0x61dafb;
 
 
 
-  const onClick = useCallback(
-    e => {
-      e.stopPropagation();
-      setIsActive(v => !v);
-    },
-    [setIsActive]
-  );
 
   return (
     <mesh

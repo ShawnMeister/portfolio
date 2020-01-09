@@ -12,7 +12,7 @@ export default () => {
   const mesh = useRef();
   const time = useRef(0);
 
-  const [isHovered, setIsHovered] = useState(false);
+
   const [isActive, setIsActive] = useState(false);
 
   const isActiveRef = useRef(isActive);
@@ -26,7 +26,7 @@ export default () => {
   const timeMod = useMemo(() => random(0.1, 4, true), []);
 
   // color
-  let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
+  let color = 0xf8f8ff;
 
 
   //useEffect of the activeState
@@ -43,15 +43,6 @@ export default () => {
     }
   });
 
-  // Events
-  const onHover = useCallback(
-    (e, value) => {
-      e.stopPropagation();
-      setIsHovered(value);
-    },
-    [setIsHovered]
-  );
-
   const onClick = useCallback(
     e => {
       e.stopPropagation();
@@ -65,8 +56,7 @@ export default () => {
       ref={mesh}
       position={position}
       onClick={e => onClick(e)}
-      onPointerOver={e => onHover(e, true)}
-      onPointerOut={e => onHover(e, false)}
+  
     >
 
 {/* Below in args, the first argument is the size of the spheres
@@ -75,7 +65,7 @@ the second argument is  */}
 
       <meshStandardMaterial
         attach="material"
-        color={0xf8f8ff}
+        color={color}
         roughness={0.6}
         metalness={0.1}
       />

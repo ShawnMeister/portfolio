@@ -4,7 +4,7 @@ import { useFrame } from "react-three-fiber";
 
 import Sphere from "./Sphere";
 
-export default () => {{
+export default () => {
   const group = useRef();
 
 
@@ -23,7 +23,7 @@ export default () => {{
   
 
 return (<mesh><group ref={group}>{nodesSpheres}</group> <group ref={group}>{nodesBackwardSpheres}</group></mesh>);
-}
+
 
 
 };

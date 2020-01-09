@@ -2,10 +2,13 @@
   text-align: center;
   background: #61dafb;
   height: 100vh;
-  cursor: url("./Images/../battleAxe.png"), move;
+  /* the cursor is some kind of work around..*/
+  /* cursor: url('./images/BattleAxe/DestinyAxeSmall.png'), auto; */
   overflow: auto;
   font-family: monospace;
 }
+
+
 
 /* .body {
   width: 100vw;

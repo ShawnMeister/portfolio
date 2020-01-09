@@ -1,16 +1,19 @@
 import React from "react";
+import ShawnSmile from './../../images/ShawnSmile.png';
+
 
 export default () => {
   return (
     <div className="credits">
-<h1>Shawn Mountenay</h1>
-    
+      
+      <img alt= 'pic of Shawn' className="imgOnly" src={ShawnSmile} />
+      <h1>Shawn Mountenay</h1>
 
-    
-      <style jsx>{`
+
+
+      <style jsx ="">{`
         .credits {
           position: fixed;
-          cursor: url("./../images/battleAxe.png") move;
           bottom: 30px;
           left: 30px;
           z-index: 10;
@@ -21,10 +24,17 @@ export default () => {
           letter-spacing: -0.02em;
           opacity: 0.5;
           transition: all 0.6s;
+          
         }
 
         .credits:hover {
           opacity: 1;
+          
+        }
+
+        .imgOnly:hover{
+          cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>💚</text></svg>") 16 0,auto; /*emojicursor.app*/
+          
         }
       `}</style>
     </div>

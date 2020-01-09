@@ -42,13 +42,11 @@ thetaLength
 export default () => {
   const mesh = useRef();
   const time = useRef(0);
-  let widSeg = 3;
+  let widSeg = 2;
   let heiSeg = 4;
-  let philen = 6.3;
-  let thesta = 6;
-  let thelen = 6.3;
 
-  const [isHovered, setIsHovered] = useState(false);
+
+ // const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
   const isActiveRef = useRef(isActive);
@@ -92,14 +90,14 @@ export default () => {
     }
   });
 
-  // Events
-  const onHover = useCallback(
+  // Hover Events
+/*   const onHover = useCallback(
     (e, value) => {
       e.stopPropagation();
       setIsHovered(value);
     },
     [setIsHovered]
-  );
+  ); */
 
   const onClick = useCallback(
     e => {
@@ -114,8 +112,8 @@ export default () => {
       ref={mesh}
       position={position}
       onClick={e => onClick(e)}
-      onPointerOver={e => onHover(e, true)}
-      onPointerOut={e => onHover(e, false)}
+      //onPointerOver={e => onHover(e, true)}
+      //onPointerOut={e => onHover(e, false)}
     >
 
       {/* Below in args, the first argument is the size of the spheres
