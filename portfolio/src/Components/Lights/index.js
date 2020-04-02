@@ -12,10 +12,31 @@ export default () => {
 
   return (
     <group>
-<FakeSphere/>
+      <FakeSphere />
 
-      <ambientLight intensity={0.2} />
       <pointLight intensity={1.12} position={[0, 0, 10]} />
+
+      <directionalLight
+        castShadow={true}
+        intensity={0.1}
+        position={[-10, 10, 40]}
+      />
+      <directionalLight
+        castShadow={true}
+        intensity={0.1}
+        position={[10, 10, 40]}
+      />
+
+      <directionalLight
+        castShadow={true}
+        intensity={0.1}
+        position={[-10, -10, 40]}
+      />
+      <directionalLight
+        castShadow={true}
+        intensity={0.1}
+        position={[10, -10, 40]}
+      />
     </group>
   );
 };

@@ -38,15 +38,13 @@ thetaLength
 
 */
 
-
-export default () => {
+const Sphere = props => {
   const mesh = useRef();
   const time = useRef(0);
   let widSeg = 2;
   let heiSeg = 4;
 
-
- // const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
   const isActiveRef = useRef(isActive);
@@ -68,7 +66,6 @@ export default () => {
   // color
   // let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
 
-
   //useEffect of the activeState
   useEffect(() => {
     isActiveRef.current = isActive;
@@ -86,12 +83,11 @@ export default () => {
       heiSeg -= 10;
 
       mesh.current.position.y = position[1];
-
     }
   });
 
   // Hover Events
-/*   const onHover = useCallback(
+  /*   const onHover = useCallback(
     (e, value) => {
       e.stopPropagation();
       setIsHovered(value);
@@ -108,24 +104,31 @@ export default () => {
   );
 
   return (
-    <mesh
-      ref={mesh}
-      position={position}
-      onClick={e => onClick(e)}
-      //onPointerOver={e => onHover(e, true)}
-      //onPointerOut={e => onHover(e, false)}
-    >
+    <group>
+      <mesh
+        ref={mesh}
+        position={position}
+        onClick={e => onClick(e)}
 
-      {/* Below in args, the first argument is the size of the spheres
+        //onPointerOver={e => onHover(e, true)}
+        //onPointerOut={e => onHover(e, false)}
+      >
+        {/* Below in args, the first argument is the size of the spheres
 the second argument is  */}
-      <sphereBufferGeometry attach="geometry" args={[1, { widSeg }, { heiSeg }, 6, 6.3, 6.3, 6.3]} />
-      {/* ,6,{philen},{thesta},{thelen} */}
-      <meshStandardMaterial
-        attach="material"
-        color={0x39ff14}
-        roughness={0.5}
-        metalness={0.5}
-      />
-    </mesh>
+        <sphereBufferGeometry
+          attach="geometry"
+          args={[1, { widSeg }, { heiSeg }, 6, 6.3, 6.3, 6.3]}
+        />
+        {/* ,6,{philen},{thesta},{thelen} */}
+        <meshStandardMaterial
+          attach="material"
+          color={0x39ff14}
+          roughness={0.5}
+          metalness={0.5}
+        />
+      </mesh>
+    </group>
   );
 };
+
+export default Sphere;
