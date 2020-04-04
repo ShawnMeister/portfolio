@@ -4,10 +4,11 @@ import { Canvas } from "react-three-fiber";
 import Credits from "./Components/Credits";
 import BlueSpheres from "./Components/BlueSpheres";
 import WhiteSpheres from "./Components/WhiteSpheres";
+import Environment from "./Components/Environment";
+import Lights from "./Components/Lights";
+import Animations from "./Components/Animations/Animations";
 
-import Axe from "./Components/Axe/Axe";
-
-const App = props => {
+const App = (props) => {
   return (
     <div className="App">
       <Credits />
@@ -16,10 +17,13 @@ const App = props => {
 
         <WhiteSpheres />
         <BlueSpheres />
+        <Lights />
+
+        <Environment />
 
         <Suspense fallback={null}>
           {/* <PullRelease /> */}
-          <Axe />
+          <Animations />
         </Suspense>
 
         {/* <Dodecahedron /> */}

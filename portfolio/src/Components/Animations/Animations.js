@@ -1,13 +1,88 @@
 import { useFrame, useLoader, useThree } from "react-three-fiber";
-import React, { useEffect, useRef } from "react";
-import TestSpheres from "./../../Components/TestSpheres";
-import Environment from "./../../Components/Environment";
+import React, { useEffect, useRef, useMemo, useState } from "react";
+
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import Lights from "./../../Components/Lights";
 import { WebGLRenderer } from "three";
 import * as THREE from "three";
 
-const Axe = props => {
+/* 
+
+magic button that goes to portfolio from landing Page
+
+
+
+const radius 8
+widthSegment goes from 31 to 3 while 
+heightsegment goes from 32 to 4
+const phistart 6
+
+philength goes from 6.3 to 0 while 
+thetastart goes from 6 to 0
+
+philength goes back to 6.3 and goes to 0 while
+thetalength drops from 6.3 to 0
+
+
+radius 
+widthSegments
+heightSegments
+phiStart
+phiLength
+thetaStart
+thetaLength
+
+
+
+*/
+
+const Animations = (props) => {
+  const meshRef = useRef();
+  const diamondRef = useRef();
+  const time = useRef(0);
+
+  // position
+  /*   const position = useMemo(() => {
+      return [random(-5, 5, true), random(-10, 10, true), random(-5, 5, true)];
+    }, []); */
+
+  const position = useMemo(() => {
+    return [0, 0, 0];
+  }, []);
+
+  // random time mod factor
+  /*  const timeMod = useMemo(() => random(0.1, 4, true), []); */
+
+  //const timeMod = useMemo(() => 2, []);
+
+  // color
+  // let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
+
+  // raf loop
+  //that means request animation frame
+  useFrame(() => {
+    /* mesh.current.rotation.y += 0.01 * timeMod; */
+    if (!axeToEmeraldAnimationDone) {
+      meshRef.current.rotation.y += 0.05;
+    }
+  });
+
+  // Hover Events
+  /*   const onHover = useCallback(
+    (e, value) => {
+      e.stopPropagation();
+      setIsHovered(value);
+    },
+    [setIsHovered]
+  ); */
+
+  // const onClick = useCallback(
+  //   (e) => {
+  //     e.stopPropagation();
+  //     setIsActive((v) => !v);
+  //   },
+  //   [setIsActive]
+  // );
+
   const model = useLoader(GLTFLoader, "/scene.gltf");
   const axeRef = useRef();
   const { viewport } = useThree();
@@ -28,7 +103,6 @@ const Axe = props => {
   const zhighTiltBottomBoundary = zhighTilt - zTiltSpeed * 1.5;
 
   const axeClicked = () => {
-    console.log("I am being clicked");
     if (introAnimationDone === true) {
       isAxeClicked = true;
       frameCounter = 0;
@@ -88,6 +162,7 @@ const Axe = props => {
         frameCounter < 100 &&
         countAxeClicks < 3
       ) {
+        //last time goes to emerald
         if (toEmeraldFlag === false) {
           axeRef.current.position.x = axeRef.current.position.x - 0.2;
           axeRef.current.position.y = axeRef.current.position.y - 0.05;
@@ -97,6 +172,7 @@ const Axe = props => {
           axeRef.current.rotation.z = axeRef.current.rotation.z + 1.25;
           if (axeRef.current.position.x < 1.05) {
             axeToEmeraldAnimationDone = true;
+
             isAxeClicked = false;
           }
         }
@@ -108,7 +184,7 @@ const Axe = props => {
     }
   };
 
-  const smashTheEmerald = mouse => {
+  const smashTheEmerald = (mouse) => {
     if (
       mouse.x > 0.35 &&
       isAxeClicked === true &&
@@ -228,11 +304,10 @@ const Axe = props => {
       }
     }
   };
-
+  //the control frame
   useFrame(({ mouse }) => {
     frameCounter = frameCounter + 1;
 
-    console.log(readyToExplode);
     if (
       frameCounter > 50 &&
       frameCounter <= 100 &&
@@ -246,7 +321,11 @@ const Axe = props => {
       }
     }
 
-    if (isAxeClicked === false && introAnimationDone === true) {
+    if (
+      isAxeClicked === false &&
+      introAnimationDone === true &&
+      axeToEmeraldAnimationDone === false
+    ) {
       wiggleAxe();
     }
 
@@ -255,6 +334,45 @@ const Axe = props => {
     }
 
     smashTheEmerald(mouse);
+  });
+
+  const sphereRef = useRef();
+  let base = 2;
+  let s = 0.06;
+
+  const sphere2Ref = useRef();
+  let base2 = 1;
+  let s2 = 0.1;
+  let tempCounter = -1;
+  let tempCounterSetBool = false;
+  let afterFirst = false;
+
+  useFrame(() => {
+    if (readyToExplode === true && tempCounterSetBool === false) {
+      tempCounterSetBool = true;
+      tempCounter = frameCounter + 5;
+    }
+    if (readyToExplode === true) {
+      base = s + base;
+      sphereRef.current.scale.set(base, base, base);
+    }
+
+    if (
+      readyToExplode === true &&
+      tempCounterSetBool === true &&
+      frameCounter === tempCounter &&
+      afterFirst === false
+    ) {
+      base2 = s2 + base2;
+
+      afterFirst = true;
+      sphere2Ref.current.scale.set(base2, base2, base2);
+    }
+
+    if (afterFirst === true) {
+      base2 = s2 + base2;
+      sphere2Ref.current.scale.set(base2, base2, base2);
+    }
   });
 
   return (
@@ -269,11 +387,51 @@ const Axe = props => {
           onClick={axeClicked}
         />
       </mesh>
-      <Lights />
-      <TestSpheres />
-      <Environment />
+      <mesh ref={sphereRef}>
+        <sphereBufferGeometry
+          args={[0.5, 30, 30]}
+          attach="geometry"
+          roughness={0.5}
+          transparency={0.9}
+        />
+        <meshBasicMaterial color={0x61dafb} attach="material" />
+      </mesh>
+      <mesh ref={sphere2Ref}>
+        <sphereBufferGeometry
+          args={[0.5, 30, 30]}
+          attach="geometry"
+          roughness={0.5}
+          transparency={0.9}
+        />
+        <meshBasicMaterial color={0x39ff14} attach="material" />
+      </mesh>
+
+      <mesh
+        ref={meshRef}
+        position={position}
+        // onClick={(e) => onClick(e)}
+
+        //onPointerOver={e => onHover(e, true)}
+        //onPointerOut={e => onHover(e, false)}
+      >
+        {/* Below in args, the first argument is the size of the spheres
+the second argument is  */}
+        <sphereBufferGeometry
+          attach="geometry"
+          args={[1, 6.3, 6.3, 6, 6.3, 6.3, 6.3]}
+        />
+        {/* ,6,{philen},{thesta},{thelen} */}
+
+        <meshStandardMaterial
+          attach="material"
+          color={0x39ff14}
+          roughness={0.5}
+          metalness={0.5}
+          ref={diamondRef}
+        />
+      </mesh>
     </group>
   );
 };
 
-export default Axe;
+export default Animations;

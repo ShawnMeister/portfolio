@@ -1,19 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useFrame, useThree } from "react-three-fiber";
 
 export default () => {
-  const FakeSphere = () => {
-    return (
-      <mesh>
-        <sphereBufferGeometry args={[0.5, 30, 30]} attach="geometry" />
-        <meshBasicMaterial color={0xfff1ef} attach="material" />
-      </mesh>
-    );
-  };
+  const FakeSphere = () => {};
 
   return (
     <group>
-      <FakeSphere />
-
       <pointLight intensity={1.12} position={[0, 0, 10]} />
 
       <directionalLight
