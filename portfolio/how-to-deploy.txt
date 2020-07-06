@@ -1,5 +1,0 @@
-1. Add and commit all changes and push to origin
-
-2. Npm run gh-pages-deploy script (may be slightly different words)
-
-3. Go to github settings in BTU-Website repo and add custom site as breaktheuniverse.band
