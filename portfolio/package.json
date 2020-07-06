@@ -1,6 +1,10 @@
 {
+<<<<<<< HEAD:package.json
   "homepage": "https://shawnmeister.github.io/portfolio-react",
   "name": "portfolio-react",
+=======
+  "name": "portfolio",
+>>>>>>> parent of 15dc98b3... lets try to deploy website to shawnm.dev:portfolio/package.json
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,9 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,8 +37,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "gh-pages": "^2.2.0"
   }
 }
