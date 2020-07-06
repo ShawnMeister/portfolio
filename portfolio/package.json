@@ -1,6 +1,10 @@
 {
   "homepage": "https://shawnmeister.github.io/portfolio",
+<<<<<<< HEAD:portfolio/package.json
   "name": "portfolio",
+=======
+  "name": "porfolio",
+>>>>>>> parent of ddf5f678... think we have the file structure correct for gh-pages..:package.json
   "version": "0.1.0",
   "private": true,
   "dependencies": {
