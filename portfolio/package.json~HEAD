@@ -1,6 +1,15 @@
 {
-  "homepage": "https://shawnmeister.github.io/portfolio",
+<<<<<<< HEAD:portfolio/package.json
+<<<<<<< HEAD:package.json
+  "homepage": "https://shawnmeister.github.io/portfolio-react",
+  "name": "portfolio-react",
+=======
   "name": "portfolio",
+>>>>>>> parent of 15dc98b3... lets try to deploy website to shawnm.dev:portfolio/package.json
+=======
+  "homepage": "https://shawnmeister.github.io/portfolio",
+  "name": "porfolio",
+>>>>>>> parent of ddf5f678... think we have the file structure correct for gh-pages..:package.json
   "version": "0.1.0",
   "private": true,
   "dependencies": {
