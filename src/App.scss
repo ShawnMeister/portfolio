@@ -1,0 +1,158 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;562;600;700&display=swap");
+
+//bootstrap override
+/* The following block can be included in a custom.scss */
+
+/* make the customizations */
+$theme-colors: (
+  "info": tomato,
+  "danger": #39ff14,
+);
+
+$phone-screen-width: "only screen and (max-width : 700px)";
+
+$phone-screen-height-and-width: "only screen and (max-height : 640px) and (max-width : 360px) ";
+
+$big-tablet-screen-height-and-width: "only screen and (max-height : 1200px) and (max-width : 1400px)";
+
+$small-tablet-screen-height-and-width: "only screen and (max-height : 900px) and (max-width : 1050px)";
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
+
+.App {
+  text-align: center;
+  position: relative;
+  height: 100vh;
+  /* the cursor is some kind of work around..*/
+  /* cursor: url('./images/BattleAxe/DestinyAxeSmall.png'), auto; */
+  overflow: auto;
+  font-family: monospace;
+  @media #{$phone-screen-width} {
+    overflow: scroll;
+  }
+}
+
+#url_public_id {
+  display: none;
+}
+
+.navName {
+  @media #{$phone-screen-width} {
+    font-size: 1.2rem !important;
+  }
+}
+
+.jumboTron {
+  color: #39ff14 !important;
+  z-index: 99;
+  position: absolute;
+  opacity: 0.9;
+  box-shadow: -5px 4px 8px white;
+  position: absolute;
+
+  margin: 50vh 25vw 0;
+  transform: translateY(-50%);
+
+  @media #{$big-tablet-screen-height-and-width} {
+    margin: 35vh 15vw 0;
+  }
+
+  @media #{$small-tablet-screen-height-and-width} {
+    margin: 20vh 15vw 0;
+  }
+
+  @media #{$phone-screen-width} {
+    margin: 50vh 5vw 0;
+    box-shadow: 0px 4px 8px white;
+    h4 {
+      font-size: 1rem !important;
+    }
+    h1 {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  @media #{$phone-screen-height-and-width} {
+    margin: 55vh 2vw 0;
+  }
+}
+
+.btn-primary {
+}
+
+.canvas {
+  position: relative;
+}
+
+.navGradient {
+  box-shadow: 0px 1px 4px white;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 212, 255, 1) 100%,
+    rgba(0, 212, 255, 1) 100%
+  );
+}
+
+.navbar-nav {
+  flex-direction: row !important;
+  @media #{$phone-screen-width} {
+    margin-right: auto;
+  }
+}
+
+.fancyFont {
+  font-family: "Dancing Script";
+}
+
+/* .body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background: black;
+  overflow: hidden;
+} */
+/* 
+#root {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+ */
+
+/* .App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+} */
+
+/*
+// How to spin an image in 2d
+
+ @keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+}  */
