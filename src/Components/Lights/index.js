@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
-import { useFrame, useThree } from "react-three-fiber";
+import React from "react";
+
 
 export default () => {
-  const FakeSphere = () => {};
+
 
   return (
     <group>

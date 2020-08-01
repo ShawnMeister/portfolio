@@ -35,7 +35,7 @@ import { WebGLRenderer } from "three";
 const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   const meshRef = useRef();
   const diamondRef = useRef();
-  const time = useRef(0);
+  // const time = useRef(0);
 
   // position
   /*   const position = useMemo(() => {
