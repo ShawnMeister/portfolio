@@ -117,7 +117,7 @@ const HeroSection = () => {
       <h5>
         This site was built with React, React-Three-Fiber & more.
         <br /> <br />
-        Lets make an impact! <br /> <br />
+        Let's make an impact! <br /> <br />
         👨🏿‍💻👨‍💻👩‍💻
       </h5>
 
