@@ -68,7 +68,7 @@ const App = (props) => {
               </Button>
             </div>
           </Route>
-          <Route exact path={"/home"}>
+          <Route path={"/home"}>
             <div className="customContainer  ">
               <div className=" h-100  container mr-0 ml-0 mw-100 pr-0 pl-0">
                 <div className="row">
@@ -117,7 +117,7 @@ const HeroSection = () => {
       <h5>
         This site was built with React, React-Three-Fiber & more.
         <br /> <br />
-        Lets make an impact! <br /> <br />
+        Let's make an impact! <br /> <br />
         👨🏿‍💻👨‍💻👩‍💻
       </h5>
 
