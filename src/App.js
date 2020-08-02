@@ -135,7 +135,7 @@ const HeroSection = () => {
 
 const NavSection = () => {
   return (
-    <Navbar expand="lg" className=" navGradient sticky-top w-100">
+    <Navbar expand="lg" className="  sticky-top w-100">
       <Navbar.Brand href="/home">
         <img
           src={MiniAxe}
