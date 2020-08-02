@@ -7,15 +7,7 @@ import Environment from "./Components/Environment";
 import Lights from "./Components/Lights";
 import Animations from "./Components/Animations/Animations";
 
-import {
-  Button,
-  Navbar,
-  Nav,
-  Jumbotron,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Button, Navbar, Nav, Jumbotron } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MiniAxe from "./Assets/images/DestinyAxeSmall.png";
 import { SocialIcon } from "react-social-icons";
@@ -30,8 +22,13 @@ import BottomForeground from "./Components/BottomForeground";
 
 const App = (props) => {
   const [showForeground, setShowForeground] = useState(false);
-
+  const [isDisplayed, setIsDisplayed] = useState(true);
   const [redirectTo, setRedirectTo] = useState("/");
+
+  const myCallback = (dataFromChild) => {
+    setShowForeground(dataFromChild);
+    setRedirectTo("/home");
+  };
 
   return (
     <Router>
@@ -39,28 +36,43 @@ const App = (props) => {
         <Switch>
           <Redirect exact from="/" to="/enter" />
           <Route path={"/enter"}>
-            <CanvasAndAnimations />
+            <Canvas className="canvas" camera={{ position: [0, 0, 4] }}>
+              <WhiteSpheres />
+              <BlueSpheres />
+              <Lights />
+              <Environment />
+
+              <Suspense  fallback={null}>
+                <Animations
+               
+                  isDisplayed={isDisplayed}
+                  callbackFromParent={myCallback}
+                  showForeground={showForeground}
+                />
+              </Suspense>
+            </Canvas>
           </Route>
 
           <Route exact path={"/home"}>
             <div className="customContainer  ">
-              <Container className="mw-100 h-100 p-0 m-0">
-                <Row className="sm-h-25">
-                  <Col>
+              <div className=" h-100  container mr-0 ml-0 mw-100 pr-0 pl-0">
+                <div className="row">
+                  <div className="col">
                     <NavSection />
-                  </Col>
-                </Row>
-                <Row className="sm-h-50">
-                  <Col sm="12" lg={{ span: 6, offset: 3 }}>
-                    <HeroSection className="lg-m-5 sm-m-2 " />
-                  </Col>
-                </Row>
-                <Row className="align-content-end">
-                  <Col>
+                  </div>
+                </div>
+                <div className="row justify-content-center">
+                  <div className="">
+                    <HeroSection className=" " />
+                  </div>
+                </div>
+
+                <div className="row ">
+                  <div className="col">
                     <BottomForeground />
-                  </Col>
-                </Row>
-              </Container>
+                  </div>
+                </div>
+              </div>
             </div>
             <SpaceBackground />
           </Route>
@@ -84,22 +96,23 @@ const SpaceBackground = () => {
 
 const HeroSection = () => {
   return (
-    <Jumbotron className="m-5 bg-dark jumboTron">
-      <h1>Portfolio</h1>
+    <Jumbotron className="m-4 bg-dark jumboTron">
+      <h1>Thanks for popping by!</h1>
       <br />
       <h5>
-        Thanks for popping by. Contact me if you want to make cool and/or useful
-        stuff. I'm a big fan of VueJS, SASS, JS, TypeScript and React. This
-        portfolio was built with React, React-Three-Fiber & React-Bootstrap.
+        This site was built with React, React-Three-Fiber & more.
+        <br /> <br />
+        Lets make cool & useful stuff <br /> <br />
+        👨🏿‍💻👨‍💻👩‍💻
       </h5>
-      <h5 className="text-right mr-5">-Shawn</h5>
+
       <br />
       <Button
         href="mailto:shawn.mountenay@gmail.com"
         className=" btn-success text-dark font-weight-bold"
         style={{ backgroundColor: "#39ff14" }}
       >
-        CONTACT ME
+        CONTACT ME HERE
       </Button>
     </Jumbotron>
   );
@@ -121,27 +134,36 @@ const NavSection = () => {
           Shawn Mountenay
         </Nav.Link>
       </Nav>
-      <Nav className="ml-auto ">
+      <Nav className="ml-auto row">
         <SocialIcon
-          className="mr-2 mt-1"
+          className="mr-2 mt-1 col"
           url="https://www.linkedin.com/in/shawn-m-045995150"
           fgColor="white"
           bgColor="black"
+          target="_blank"
         />
-
         <SocialIcon
           network="email"
           url="mailto:shawn.mountenay@gmail.com"
           bgColor="black"
           fgColor="white"
-          className="mr-2 mt-1"
+          className="mr-2 mt-1 col"
+          target="_blank"
+        />
+        <SocialIcon
+          network="github"
+          url="https://github.com/ShawnMeister"
+          bgColor="black"
+          fgColor="white"
+          className="mr-4 mt-1 col"
+          target="_blank"
         />
       </Nav>
     </Navbar>
   );
 };
 
-const CanvasAndAnimations = () => {
+const CanvasAndAnimations = (props) => {
   const [redirectTo, setRedirectTo] = useState("/");
   const [showForeground, setShowForeground] = useState(false);
 
@@ -159,6 +181,7 @@ const CanvasAndAnimations = () => {
 
       <Suspense fallback={null}>
         <Animations
+          key={5}
           callbackFromParent={myCallback}
           showForeground={showForeground}
         />

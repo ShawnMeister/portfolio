@@ -1,21 +1,14 @@
 /*
-
 Emerald Params are below
-
 magic button that goes to portfolio from landing Page
-
 const radius 8
 widthSegment goes from 31 to 3 while
 heightsegment goes from 32 to 4
 const phistart 6
-
 philength goes from 6.3 to 0 while
 thetastart goes from 6 to 0
-
 philength goes back to 6.3 and goes to 0 while
 thetalength drops from 6.3 to 0
-
-
 radius
 widthSegments
 heightSegments
@@ -23,7 +16,6 @@ phiStart
 phiLength
 thetaStart
 thetaLength
-
 */
 
 import { useFrame, useLoader, useThree } from "react-three-fiber";
@@ -35,7 +27,7 @@ import { WebGLRenderer } from "three";
 const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   const meshRef = useRef();
   const diamondRef = useRef();
-  // const time = useRef(0);
+  const time = useRef(0);
 
   // position
   /*   const position = useMemo(() => {

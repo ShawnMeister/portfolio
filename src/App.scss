@@ -19,7 +19,31 @@
   /* the cursor is some kind of work around..*/
   /* cursor: url('./images/BattleAxe/DestinyAxeSmall.png'), auto; */
   overflow: hidden;
+
   font-family: monospace;
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 400px) {
+  .container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  .container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+  }
 }
 
 // #url_public_id {
@@ -31,11 +55,13 @@
 }
 
 .jumboTron {
-  color: #39ff14 !important;
+  color: #37ff14e8 !important;
+  // text-shadow: 1px 1px 2px green;
   z-index: 999;
   // position: relative;
   opacity: 0.9;
   font-size: 1rem;
+  box-shadow: -1px 1px 20px white;
 }
 
 .canvas {
