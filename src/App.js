@@ -68,7 +68,7 @@ const App = (props) => {
               </Button>
             </div>
           </Route>
-          <Route exact path={"/home"}>
+          <Route path={"/home"}>
             <div className="customContainer  ">
               <div className=" h-100  container mr-0 ml-0 mw-100 pr-0 pl-0">
                 <div className="row">
