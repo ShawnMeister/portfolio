@@ -83,6 +83,8 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   let axeToEmeraldAnimationDone = false;
   let isAxeClicked = false;
   let clockwiseFlag = false;
+  const lightRef = useRef();
+
   let zTiltCounter = 0;
   let frameCounter = 0;
   const zlowTilt = 1.65;
@@ -129,6 +131,13 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     }
 
     function backAndForth() {
+      // const flashTheAxe = () => {
+      //   var light = new THREE.PointLight(0xff0000, 1, 100);
+      //   light.position.set(50, 50, 50);
+      //   scene.add(light);
+      //   return;
+      // };
+
       if (
         isAxeClicked === true &&
         introAnimationDone === true &&
@@ -165,6 +174,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
             axeToEmeraldAnimationDone = true;
 
             isAxeClicked = false;
+            // flashTheAxe();
           }
         }
         frameCounter = frameCounter + 1;
@@ -374,20 +384,21 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
         if (explosionDone === false) {
           explosionDone = true;
           showForeground = true;
-          callbackFromParent(showForeground);
           axeRef.current.visible = false;
           meshRef.current.visible = false;
           sphere2Ref.current.visible = false;
           sphereRef.current.visible = false;
           diamondRef.current.visible = false;
+          callbackFromParent(showForeground);
         }
-      }, 1800);
+      }, 1500);
     }
   });
 
-  // const myCallback = (dataFromChild) => {
-  //   dataFromChild = showForeground;
-  // };
+  const myCallback = (dataFromChild) => {
+    console.log("You working?");
+    dataFromChild = showForeground;
+  };
 
   return [
     <group>

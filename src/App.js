@@ -6,17 +6,17 @@ import WhiteSpheres from "./Components/WhiteSpheres";
 import Environment from "./Components/Environment";
 import Lights from "./Components/Lights";
 import Animations from "./Components/Animations/Animations";
-
 import { Button, Navbar, Nav, Jumbotron } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MiniAxe from "./Assets/images/DestinyAxeSmall.png";
 import { SocialIcon } from "react-social-icons";
-
+import { isMobile } from "react-device-detect";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
+  Link,
 } from "react-router-dom";
 import BottomForeground from "./Components/BottomForeground";
 
@@ -28,13 +28,20 @@ const App = (props) => {
   const myCallback = (dataFromChild) => {
     setShowForeground(dataFromChild);
     setRedirectTo("/home");
+    console.log("you really working???");
   };
 
   return (
     <Router>
       <div className="App">
+        {showForeground ? <Redirect to={redirectTo} /> : null}
         <Switch>
-          <Redirect exact from="/" to="/enter" />
+          {isMobile ? (
+            <Redirect exact from="/" to="/home" />
+          ) : (
+            <Redirect exact from="/" to="/enter" />
+          )}
+
           <Route path={"/enter"}>
             <Canvas className="canvas" camera={{ position: [0, 0, 4] }}>
               <WhiteSpheres />
@@ -42,17 +49,25 @@ const App = (props) => {
               <Lights />
               <Environment />
 
-              <Suspense  fallback={null}>
+              <Suspense fallback={null}>
                 <Animations
-               
                   isDisplayed={isDisplayed}
                   callbackFromParent={myCallback}
                   showForeground={showForeground}
                 />
               </Suspense>
             </Canvas>
+            <div className="skipIntro">
+              <Button className="opacity-3" variant="dark">
+                <Link
+                  className="text-secondary text-decoration-none"
+                  to="/home"
+                >
+                  Skip Interactive Animations
+                </Link>
+              </Button>
+            </div>
           </Route>
-
           <Route exact path={"/home"}>
             <div className="customContainer  ">
               <div className=" h-100  container mr-0 ml-0 mw-100 pr-0 pl-0">
@@ -102,7 +117,7 @@ const HeroSection = () => {
       <h5>
         This site was built with React, React-Three-Fiber & more.
         <br /> <br />
-        Lets make cool & useful stuff <br /> <br />
+        Lets make an impact! <br /> <br />
         👨🏿‍💻👨‍💻👩‍💻
       </h5>
 
@@ -181,7 +196,6 @@ const CanvasAndAnimations = (props) => {
 
       <Suspense fallback={null}>
         <Animations
-          key={5}
           callbackFromParent={myCallback}
           showForeground={showForeground}
         />
