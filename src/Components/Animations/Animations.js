@@ -1,21 +1,14 @@
 /*
-
 Emerald Params are below
-
 magic button that goes to portfolio from landing Page
-
 const radius 8
 widthSegment goes from 31 to 3 while
 heightsegment goes from 32 to 4
 const phistart 6
-
 philength goes from 6.3 to 0 while
 thetastart goes from 6 to 0
-
 philength goes back to 6.3 and goes to 0 while
 thetalength drops from 6.3 to 0
-
-
 radius
 widthSegments
 heightSegments
@@ -23,7 +16,6 @@ phiStart
 phiLength
 thetaStart
 thetaLength
-
 */
 
 import { useFrame, useLoader, useThree } from "react-three-fiber";
@@ -91,6 +83,8 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   let axeToEmeraldAnimationDone = false;
   let isAxeClicked = false;
   let clockwiseFlag = false;
+  const lightRef = useRef();
+
   let zTiltCounter = 0;
   let frameCounter = 0;
   const zlowTilt = 1.65;
@@ -137,6 +131,13 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     }
 
     function backAndForth() {
+      // const flashTheAxe = () => {
+      //   var light = new THREE.PointLight(0xff0000, 1, 100);
+      //   light.position.set(50, 50, 50);
+      //   scene.add(light);
+      //   return;
+      // };
+
       if (
         isAxeClicked === true &&
         introAnimationDone === true &&
@@ -173,6 +174,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
             axeToEmeraldAnimationDone = true;
 
             isAxeClicked = false;
+            // flashTheAxe();
           }
         }
         frameCounter = frameCounter + 1;
@@ -382,20 +384,21 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
         if (explosionDone === false) {
           explosionDone = true;
           showForeground = true;
-          callbackFromParent(showForeground);
           axeRef.current.visible = false;
           meshRef.current.visible = false;
           sphere2Ref.current.visible = false;
           sphereRef.current.visible = false;
           diamondRef.current.visible = false;
+          callbackFromParent(showForeground);
         }
-      }, 1800);
+      }, 1500);
     }
   });
 
-  // const myCallback = (dataFromChild) => {
-  //   dataFromChild = showForeground;
-  // };
+  const myCallback = (dataFromChild) => {
+    console.log("You working?");
+    dataFromChild = showForeground;
+  };
 
   return [
     <group>

@@ -6,218 +6,90 @@ import WhiteSpheres from "./Components/WhiteSpheres";
 import Environment from "./Components/Environment";
 import Lights from "./Components/Lights";
 import Animations from "./Components/Animations/Animations";
-import { isMobile } from "react-device-detect";
-import {
-  Button,
-  Navbar,
-  Nav,
-  Jumbotron,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Button, Navbar, Nav, Jumbotron } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MiniAxe from "./Assets/images/DestinyAxeSmall.png";
 import { SocialIcon } from "react-social-icons";
-
+import { isMobile } from "react-device-detect";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Link,
   Redirect,
+  Link,
 } from "react-router-dom";
 import BottomForeground from "./Components/BottomForeground";
 
 const App = (props) => {
-  const renderContent = () => {
-    if (isMobile) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
   const [showForeground, setShowForeground] = useState(false);
-
   const [isDisplayed, setIsDisplayed] = useState(true);
-
   const [redirectTo, setRedirectTo] = useState("/");
-  const toggleShowHide = () => {
-    setIsDisplayed(false);
-    setShowForeground(true);
-    setRedirectTo("/home");
-  };
+
   const myCallback = (dataFromChild) => {
     setShowForeground(dataFromChild);
     setRedirectTo("/home");
+    console.log("you really working???");
   };
 
   return (
     <Router>
       <div className="App">
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        {renderContent}
+        {showForeground ? <Redirect to={redirectTo} /> : null}
         <Switch>
-          <Route path={["/", "/home"]}>
-            <Redirect to={redirectTo}></Redirect>
-            {/*<div>*/}
-            {/*  <Button onClick={toggleShowHide} />*/}
-            {/*</div>*/}
+          {isMobile ? (
+            <Redirect exact from="/" to="/home" />
+          ) : (
+            <Redirect exact from="/" to="/enter" />
+          )}
 
-            {/* <Button
-              className="fixed-top mt-2 ml-5"
-              variant="primary"
-              onClick={toggleShowHide}
-            >
-              TEST
-            </Button> */}
-            {showForeground ? <BottomForeground /> : null}
-            {showForeground ? (
-              <Navbar fluid expand="lg" className=" fixed-top navGradient">
-                <Navbar.Brand href="home">
-                  <img
-                    src={MiniAxe}
-                    className=" pt-2 pb-2 d-inline-block align-top"
-                    alt="React Bootstrap logo"
-                  />
-                </Navbar.Brand>
-                {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-                <Nav className="mr-auto h2 font-weight-bold">
-                  <Nav.Link
-                    className=" text-warning fancyFont navName"
-                    href="home"
-                  >
-                    Shawn Mountenay
-                  </Nav.Link>
-                </Nav>
-                <Nav className="ml-auto ">
-                  <SocialIcon
-                    className="mr-2 mt-1"
-                    url="https://www.linkedin.com/in/shawn-m-045995150"
-                    fgColor="white"
-                    bgColor="black"
-                  />
-
-                  <SocialIcon
-                    network="email"
-                    url="mailto:shawn.mountenay@gmail.com"
-                    bgColor="black"
-                    fgColor="white"
-                    className="mr-2 mt-1"
-                  />
-                </Nav>
-              </Navbar>
-            ) : null}
-            {showForeground ? (
-              <Row>
-                <Col>
-                  <Jumbotron className="bg-dark jumboTron">
-                    <h1>Portfolio</h1>
-                    <br />
-                    <h5>
-                      Thanks for popping by. Contact me if you want to make cool
-                      and/or useful stuff. I'm a big fan of VueJS, SASS, JS,
-                      TypeScript and React. This portfolio was built with React,
-                      React-Three-Fiber, React-Bootstrap, and Love.
-                    </h5>
-                    <h5 className="text-right mr-5">-Shawn</h5>
-                    <br />
-                    <Button
-                      href="mailto:shawn.mountenay@gmail.com"
-                      className=" btn-success text-dark font-weight-bold"
-                      style={{ backgroundColor: "#39ff14" }}
-                    >
-                      PRESS ME
-                    </Button>
-                  </Jumbotron>
-                </Col>
-              </Row>
-            ) : null}
-
-            {renderContent() ? null : (
-              <Row>
-                <Col>
-                  <Jumbotron className="bg-dark jumboTron">
-                    <h1>Portfolio</h1>
-                    <br />
-                    <h4>
-                      Thanks for popping by. Contact me if you want to make cool
-                      and/or useful stuff. This portfolio was built with React,
-                      React-Three-Fiber, React-Bootstrap and Love.
-                    </h4>
-                    <h5 className="text-right mr-5">-Shawn</h5>
-                    <br />
-                    <Button
-                      href="mailto:shawn.mountenay@gmail.com"
-                      className=" btn-success text-dark font-weight-bold"
-                      style={{ backgroundColor: "#39ff14" }}
-                    >
-                      PRESS ME
-                    </Button>
-                  </Jumbotron>
-                </Col>
-              </Row>
-            )}
-            {renderContent()
-              ? null
-              : [
-                  <BottomForeground />,
-                  <Navbar fluid expand="lg" className=" fixed-top navGradient">
-                    <Navbar.Brand href="home">
-                      <img
-                        src={MiniAxe}
-                        className=" pt-2 pb-2 d-inline-block align-top"
-                        alt="React Bootstrap logo"
-                      />
-                    </Navbar.Brand>
-                    {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-                    <Nav className="mr-auto h2 font-weight-bold">
-                      <Nav.Link
-                        className="text-warning fancyFont navName"
-                        href="home"
-                      >
-                        Shawn Mountenay
-                      </Nav.Link>
-                    </Nav>
-                    <Nav className="ml-auto ">
-                      <SocialIcon
-                        className="mr-2 mt-1"
-                        url="https://www.linkedin.com/in/shawn-m-045995150"
-                        fgColor="white"
-                        bgColor="black"
-                      />
-
-                      <SocialIcon
-                        network="email"
-                        url="mailto:shawn.mountenay@gmail.com"
-                        bgColor="black"
-                        fgColor="white"
-                        className="mr-2 mt-1"
-                      />
-                    </Nav>
-                  </Navbar>,
-                ]}
-
+          <Route path={"/enter"}>
             <Canvas className="canvas" camera={{ position: [0, 0, 4] }}>
               <WhiteSpheres />
               <BlueSpheres />
               <Lights />
               <Environment />
 
-              {renderContent() ? (
-                <Suspense fallback={null}>
-                  <Animations
-                    callbackFromParent={myCallback}
-                    isDisplayed={isDisplayed}
-                    showForeground={showForeground}
-                  />
-                </Suspense>
-              ) : null}
+              <Suspense fallback={null}>
+                <Animations
+                  isDisplayed={isDisplayed}
+                  callbackFromParent={myCallback}
+                  showForeground={showForeground}
+                />
+              </Suspense>
             </Canvas>
+            <div className="skipIntro">
+              <Button className="opacity-3" variant="dark">
+                <Link
+                  className="text-secondary text-decoration-none"
+                  to="/home"
+                >
+                  Skip Interactive Animations
+                </Link>
+              </Button>
+            </div>
+          </Route>
+          <Route exact path={"/home"}>
+            <div className="customContainer  ">
+              <div className=" h-100  container mr-0 ml-0 mw-100 pr-0 pl-0">
+                <div className="row">
+                  <div className="col">
+                    <NavSection />
+                  </div>
+                </div>
+                <div className="row justify-content-center">
+                  <div className="">
+                    <HeroSection className=" " />
+                  </div>
+                </div>
 
-            {/* <Button onClick={toggleShowHide} /> */}
+                <div className="row ">
+                  <div className="col">
+                    <BottomForeground />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <SpaceBackground />
           </Route>
         </Switch>
       </div>
@@ -226,33 +98,108 @@ const App = (props) => {
 };
 export default App;
 
-function Home() {
-  return (<h2>Home</h2>), (<p>biatch</p>);
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
-
-const ConsoleLog = ({ children, redirectTo }) => {
-  console.log("foreGround is " + children);
-  return null;
+const SpaceBackground = () => {
+  return (
+    <Canvas className="canvas" camera={{ position: [0, 0, 4] }}>
+      <WhiteSpheres />
+      <BlueSpheres />
+      <Lights />
+      <Environment />
+    </Canvas>
+  );
 };
-// const Button = ({ onClick }) => (
-//   <div class="button">
-//     <style jsx="">
-//       {`
-//         .button {
-//           position: fixed;
-//           bottom: 250px;
-//           left: 100px;
-//         }
-//       `}
-//     </style>
 
-//     <button onClick={onClick} type="button">
-//       {/* <Link to="/home">Toggle Show/Hide</Link> */}
-//       Show
-//     </button>
-//   </div>
-// );
+const HeroSection = () => {
+  return (
+    <Jumbotron className="m-4 bg-dark jumboTron">
+      <h1>Thanks for popping by!</h1>
+      <br />
+      <h5>
+        This site was built with React, React-Three-Fiber & more.
+        <br /> <br />
+        Lets make an impact! <br /> <br />
+        👨🏿‍💻👨‍💻👩‍💻
+      </h5>
+
+      <br />
+      <Button
+        href="mailto:shawn.mountenay@gmail.com"
+        className=" btn-success text-dark font-weight-bold"
+        style={{ backgroundColor: "#39ff14" }}
+      >
+        CONTACT ME HERE
+      </Button>
+    </Jumbotron>
+  );
+};
+
+const NavSection = () => {
+  return (
+    <Navbar expand="lg" className=" navGradient sticky-top w-100">
+      <Navbar.Brand href="/home">
+        <img
+          src={MiniAxe}
+          className=" pt-2 pb-2 d-inline-block align-top"
+          alt="React Bootstrap logo"
+        />
+      </Navbar.Brand>
+
+      <Nav className="mr-auto h2 font-weight-bold">
+        <Nav.Link className="navName" href="home">
+          Shawn Mountenay
+        </Nav.Link>
+      </Nav>
+      <Nav className="ml-auto row">
+        <SocialIcon
+          className="mr-2 mt-1 col"
+          url="https://www.linkedin.com/in/shawn-m-045995150"
+          fgColor="white"
+          bgColor="black"
+          target="_blank"
+        />
+        <SocialIcon
+          network="email"
+          url="mailto:shawn.mountenay@gmail.com"
+          bgColor="black"
+          fgColor="white"
+          className="mr-2 mt-1 col"
+          target="_blank"
+        />
+        <SocialIcon
+          network="github"
+          url="https://github.com/ShawnMeister"
+          bgColor="black"
+          fgColor="white"
+          className="mr-4 mt-1 col"
+          target="_blank"
+        />
+      </Nav>
+    </Navbar>
+  );
+};
+
+const CanvasAndAnimations = (props) => {
+  const [redirectTo, setRedirectTo] = useState("/");
+  const [showForeground, setShowForeground] = useState(false);
+
+  const myCallback = (dataFromChild) => {
+    setShowForeground(dataFromChild);
+    setRedirectTo("/home");
+  };
+
+  return (
+    <Canvas className="canvas" camera={{ position: [0, 0, 4] }}>
+      <WhiteSpheres />
+      <BlueSpheres />
+      <Lights />
+      <Environment />
+
+      <Suspense fallback={null}>
+        <Animations
+          callbackFromParent={myCallback}
+          showForeground={showForeground}
+        />
+      </Suspense>
+    </Canvas>
+  );
+};
