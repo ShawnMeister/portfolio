@@ -367,6 +367,8 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     if (readyToExplode === true) {
       base = s + base;
       sphereRef.current.scale.set(base, base, base);
+      meshRef.current.scale.set(0.5, 0.5, 0.5);
+
     }
 
     if (
