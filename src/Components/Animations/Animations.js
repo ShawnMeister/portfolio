@@ -172,9 +172,16 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
           axeRef.current.rotation.z = axeRef.current.rotation.z + 1.25;
           if (axeRef.current.position.x < 1.05) {
             axeToEmeraldAnimationDone = true;
+            // axeRef.current.position.x = 1.25;
+            // axeRef.current.position.y = 0;
+            axeRef.current.position.z += 0.5;
+            axeRef.current.rotation.z += 0.15;
+            // axeRef.current.position.x -= 0.2;
 
+            // meshRef.current.position.x = 0;
+            // meshRef.current.position.y = 0;
+            meshRef.current.position.z += 0.5;
             isAxeClicked = false;
-            // flashTheAxe();
           }
         }
         frameCounter = frameCounter + 1;
@@ -360,6 +367,8 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     if (readyToExplode === true) {
       base = s + base;
       sphereRef.current.scale.set(base, base, base);
+      meshRef.current.scale.set(0.5, 0.5, 0.5);
+
     }
 
     if (
