@@ -18,7 +18,7 @@ export default (props) => {
 
         .imgOnly {
           width: 100vw;
-          filter: hue-rotate(260deg) grayscale(66%);
+          filter: hue-rotate(30deg) grayscale(66%);
         }
 
         // .imgOnly:hover {
