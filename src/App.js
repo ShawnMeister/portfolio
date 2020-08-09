@@ -6,11 +6,11 @@ import WhiteSpheres from "./Components/WhiteSpheres";
 import Environment from "./Components/Environment";
 import Lights from "./Components/Lights";
 import Animations from "./Components/Animations/Animations";
-import { Button, Navbar, Nav, Jumbotron } from "react-bootstrap";
+import { Button, Navbar, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import MiniAxe from "./Assets/images/DestinyAxeSmall.png";
 import { SocialIcon } from "react-social-icons";
 import { isMobile } from "react-device-detect";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -19,6 +19,9 @@ import {
   Link,
 } from "react-router-dom";
 import BottomForeground from "./Components/BottomForeground";
+import miniAxe from "./Assets/images/DestinyAxeSmall.png";
+import digitalStatic from "./Assets/videos/digital-static.mp4";
+import jumboBg from "./Assets/images/jumbo-bg.jpg";
 
 const App = (props) => {
   const [showForeground, setShowForeground] = useState(false);
@@ -78,7 +81,7 @@ const App = (props) => {
                 </div>
                 <div className="row justify-content-center">
                   <div className="">
-                    <HeroSection className=" " />
+                    <HeroSection className="" />
                   </div>
                 </div>
 
@@ -111,25 +114,31 @@ const SpaceBackground = () => {
 
 const HeroSection = () => {
   return (
-    <Jumbotron className="m-4 bg-dark jumboTron">
-      <h1>Thanks for popping by!</h1>
-      <br />
-      <h5>
-        This site was built with React, React-Three-Fiber & more.
-        <br /> <br />
-        Let's make an impact! <br /> <br />
-        👨🏿‍💻👨‍💻👩‍💻
-      </h5>
+    <div>
+      <div className="m-4  jumboTron ">
+        <h1 className="jumbo-header">Welcome</h1>
+        <br />
+        <h5 className="jumbo-content">
+          This site was mainly built with React
+          <br />
+          and React Three Fiber.
+          <br /> <br />
+          Let's make an impact! <br /> <br />
+          👨🏿‍💻👨‍💻👩‍💻
+        </h5>
 
-      <br />
-      <Button
-        href="mailto:shawn.mountenay@gmail.com"
-        className=" btn-success text-dark font-weight-bold"
-        style={{ backgroundColor: "#39ff14" }}
-      >
-        CONTACT ME HERE
-      </Button>
-    </Jumbotron>
+        <br />
+        <div className="btn-wrapper">
+          <a href="mailto:shawn.mountenay@gmail.com" className="cta-btn">
+            CONTACT ME HERE
+          </a>
+        </div>
+
+        {/* <video autoPlay={true} muted={true} loop={false}>
+          <source src={digitalStatic} type="video/mp4" />
+        </video> */}
+      </div>
+    </div>
   );
 };
 
@@ -138,7 +147,7 @@ const NavSection = () => {
     <Navbar expand="lg" className="  sticky-top w-100">
       <Navbar.Brand href="/home">
         <img
-          src={MiniAxe}
+          src={miniAxe}
           className=" pt-2 pb-2 d-inline-block align-top"
           alt="React Bootstrap logo"
         />

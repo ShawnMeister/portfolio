@@ -52,17 +52,83 @@
 
 .navName {
   color: white !important;
+
+  @media only screen and (max-width: 400px) {
+    font-size: xx-large !important;
+  }
 }
 
 .jumboTron {
+  @media only screen and (max-width: 400px) {
+    padding: 2.5rem 2.5rem;
+  }
+
   color: #37ff14e8 !important;
+  background-color: #343a40 !important;
+  // border-radius: 5%;
+
+  // background-color: rgb(44, 44, 64) !important;
+  // background-image: url("./Assets/videos/digital-static.mp4");
   // text-shadow: 1px 1px 2px green;
   z-index: 99;
   // position: relative;
-  opacity: 0.9;
+  opacity: 0.95;
   font-size: 1rem;
-  box-shadow: -1px 1px 20px white;
+  // box-shadow: -1px 1px 1px white;
+  background: hidden !important;
+  box-shadow: -1px 1px 20px #5c6b7a;
+  padding: 2.5rem 7.5rem;
 }
+.cta-btn {
+  box-shadow: 0px 10px 14px -7px #3e7327;
+  background: linear-gradient(to bottom, #8391a0 15%, #030f01 100%);
+
+  border-radius: 4px;
+  border: 0px solid #4b8f29;
+  display: inline-block;
+  cursor: pointer;
+  color: #a2ff92;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 6px 12px;
+  margin: 2px 4px !important;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #5b8a3c;
+}
+.cta-btn:hover {
+  border-width: 0px !important;
+  background: linear-gradient(to bottom, #495664 15%, #010500 100%);
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #60ff44;
+  margin: 0px 0px !important;
+  // border: 0px;
+}
+.cta-btn:active {
+  text-decoration: none;
+  position: relative;
+  color: white;
+  top: 1px;
+}
+
+.btn-wrapper {
+  padding: 10px;
+}
+
+.jumbo-content {
+  color: #39ff14;
+}
+
+.jumbo-header {
+  color: #3be01e;
+}
+
+// .jumboTron video {
+//   position: absolute;
+//   top: 0px;
+//   left: 0px;
+//   z-index: 100;
+// }
 
 .canvas {
   position: absolute;
