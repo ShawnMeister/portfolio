@@ -11,13 +11,14 @@ export default (props) => {
         .mountainForeground {
           z-index: 10;
 
-          opacity: 0.8;
+          opacity: 0.9;
           transition: all 0.6s;
           filter: brightness 0.7;
         }
 
         .imgOnly {
           width: 100vw;
+          filter: hue-rotate(200deg) grayscale(50%);
         }
 
         // .imgOnly:hover {
