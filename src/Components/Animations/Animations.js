@@ -34,7 +34,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   }, []);
 
   useFrame(() => {
-    if (!axeToEmeraldAnimationDone) {
+    if (!axeToEmeraldAnimationDone.current) {
       meshRef.current.rotation.y += 0.05;
     }
   });
@@ -61,21 +61,21 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     const renderer = new WebGLRenderer({ antialias: true });
     renderer.outputEncoding = THREE.sRGBEncoding;
 
-    // let readyToExplode = false;
-    // let explosionDone = false;
+    // let readyToExplode.current = false;
+    // let explosionDone.current = false;
     // let countAxeClicks.current = 0;
     // let introAnimationDone.current = false;
 
-    // let axeToEmeraldAnimationDone = false;
+    // let axeToEmeraldAnimationDone.current = false;
     // let isAxeClicked.current = false;
-    // let clockwiseFlag = false;
+    // let clockwiseFlag.current = false;
 
-    // let zTiltCounter = 0;
+    // let zTiltCounter.current = 0;
     // let frameCounter.current=0;
   }, []);
 
-  let readyToExplode = false;
-  let explosionDone = false;
+  const readyToExplode = useRef(false);
+  const explosionDone = useRef(false);
   const countAxeClicks = useRef(0);
 
   // let countAxeClicks.current = 0;
@@ -86,11 +86,11 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   );
   console.log("at the declaration is axe clicked: " + isAxeClicked.current);
 
-  let axeToEmeraldAnimationDone = false;
-  let clockwiseFlag = false;
+  const axeToEmeraldAnimationDone = useRef(false);
+  const clockwiseFlag = useRef(false);
   // const lightRef = useRef();
 
-  let zTiltCounter = 0;
+  const zTiltCounter = useRef(0);
   const frameCounter = useRef(0);
 
   const floatAxe = () => {
@@ -103,7 +103,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     }
     if (frameCounter.current > 150) {
       frameCounter.current = 0;
-      zTiltCounter = 0;
+      zTiltCounter.current = 0;
     }
   };
 
@@ -128,7 +128,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       if (
         isAxeClicked.current === true &&
         introAnimationDone.current === true &&
-        axeToEmeraldAnimationDone === false &&
+        axeToEmeraldAnimationDone.current === false &&
         frameCounter.current < 50 &&
         countAxeClicks.current < 3
       ) {
@@ -144,7 +144,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       } else if (
         isAxeClicked.current === true &&
         introAnimationDone.current === true &&
-        axeToEmeraldAnimationDone === false &&
+        axeToEmeraldAnimationDone.current === false &&
         frameCounter.current >= 50 &&
         frameCounter.current < 100 &&
         countAxeClicks.current < 3
@@ -158,7 +158,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
           axeRef.current.position.y = axeRef.current.position.y - 0.05;
           axeRef.current.rotation.z = axeRef.current.rotation.z + 1.25;
           if (axeRef.current.position.x < 1.05) {
-            axeToEmeraldAnimationDone = true;
+            axeToEmeraldAnimationDone.current = true;
             // axeRef.current.position.x = 1.25;
             // axeRef.current.position.y = 0;
             axeRef.current.position.z += 0.5;
@@ -184,7 +184,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     if (
       mouse.x > 0.35 &&
       isAxeClicked.current === true &&
-      axeToEmeraldAnimationDone === true
+      axeToEmeraldAnimationDone.current === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
       axeRef.current.position.y = (mouse.y * viewport.height) / 2;
@@ -193,7 +193,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     } else if (
       mouse.x > 0.3 &&
       isAxeClicked.current === true &&
-      axeToEmeraldAnimationDone === true
+      axeToEmeraldAnimationDone.current === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
       axeRef.current.position.y = (mouse.y * viewport.height) / 2;
@@ -202,7 +202,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     } else if (
       mouse.x > 0.25 &&
       isAxeClicked.current === true &&
-      axeToEmeraldAnimationDone === true
+      axeToEmeraldAnimationDone.current === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
       axeRef.current.position.y = (mouse.y * viewport.height) / 2;
@@ -211,7 +211,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     } else if (
       mouse.x > 0.25 &&
       isAxeClicked.current === true &&
-      axeToEmeraldAnimationDone === true
+      axeToEmeraldAnimationDone.current === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
       axeRef.current.position.y = (mouse.y * viewport.height) / 2;
@@ -220,7 +220,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     } else if (
       mouse.x > 0.2 &&
       isAxeClicked.current === true &&
-      axeToEmeraldAnimationDone === true
+      axeToEmeraldAnimationDone.current === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
       axeRef.current.position.y = (mouse.y * viewport.height) / 2;
@@ -229,7 +229,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     } else if (
       mouse.x > -5 &&
       isAxeClicked.current === true &&
-      axeToEmeraldAnimationDone === true
+      axeToEmeraldAnimationDone.current === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
       axeRef.current.position.y = (mouse.y * viewport.height) / 2;
@@ -243,10 +243,10 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       mouse.y > -0.2 &&
       mouse.y < 0.2 &&
       isAxeClicked.current === true &&
-      axeToEmeraldAnimationDone === true &&
+      axeToEmeraldAnimationDone.current === true &&
       frameCounter.current > 100
     ) {
-      readyToExplode = true;
+      readyToExplode.current = true;
     }
   };
 
@@ -258,16 +258,16 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     if (
       axeRef.current.rotation.z > zlowTilt &&
       axeRef.current.rotation.z < zhighTilt &&
-      clockwiseFlag === false
+      clockwiseFlag.current === false
     ) {
-      if (zTiltCounter < 4 && zTiltCounter > -1) {
+      if (zTiltCounter.current < 4 && zTiltCounter.current > -1) {
         axeRef.current.rotation.z = axeRef.current.rotation.z + zTiltSpeed;
-        if (zTiltCounter < 2) {
+        if (zTiltCounter.current < 2) {
           axeRef.current.rotation.y =
             axeRef.current.rotation.y + zTiltSpeed / 10;
           axeRef.current.rotation.x =
             axeRef.current.rotation.x + zTiltSpeed / 10;
-        } else if (zTiltCounter < 4) {
+        } else if (zTiltCounter.current < 4) {
           axeRef.current.rotation.y =
             axeRef.current.rotation.y - zTiltSpeed / 10;
           axeRef.current.rotation.x =
@@ -279,15 +279,15 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
         axeRef.current.rotation.z > zhighTiltBottomBoundary &&
         axeRef.current.rotation.z < zhighTiltUpperBoundary
       ) {
-        clockwiseFlag = true;
-        zTiltCounter = zTiltCounter + 1;
+        clockwiseFlag.current = true;
+        zTiltCounter.current = zTiltCounter.current + 1;
       }
     }
 
     if (
       axeRef.current.rotation.z < zhighTiltUpperBoundary &&
       axeRef.current.rotation.z > zlowTiltBottomBoundary &&
-      clockwiseFlag === true
+      clockwiseFlag.current === true
     ) {
       axeRef.current.rotation.z = axeRef.current.rotation.z - zTiltSpeed;
 
@@ -295,14 +295,14 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
         axeRef.current.rotation.z > zlowTiltBottomBoundary &&
         axeRef.current.rotation.z < zlowTiltUpperBoundary
       ) {
-        clockwiseFlag = false;
-        zTiltCounter = zTiltCounter + 1;
+        clockwiseFlag.current = false;
+        zTiltCounter.current = zTiltCounter.current + 1;
       }
     }
   };
 
   useFrame(({ mouse }) => {
-    if (explosionDone === false) {
+    if (explosionDone.current === false) {
       frameCounter.current = frameCounter.current + 1;
 
       if (
@@ -321,12 +321,12 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       if (
         isAxeClicked.current === false &&
         introAnimationDone.current === true &&
-        axeToEmeraldAnimationDone === false
+        axeToEmeraldAnimationDone.current === false
       ) {
         wiggleAxe();
       }
 
-      if (axeToEmeraldAnimationDone === false) {
+      if (axeToEmeraldAnimationDone.current === false) {
         axeToEmeraldAnimation();
       }
 
@@ -348,18 +348,18 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   let afterFirst = false;
 
   useFrame(() => {
-    if (readyToExplode === true && tempCounterSetBool === false) {
+    if (readyToExplode.current === true && tempCounterSetBool === false) {
       tempCounterSetBool = true;
       tempCounter = frameCounter.current + 5;
     }
-    if (readyToExplode === true) {
+    if (readyToExplode.current === true) {
       base = s + base;
       sphereRef.current.scale.set(base, base, base);
       meshRef.current.scale.set(0.5, 0.5, 0.5);
     }
 
     if (
-      readyToExplode === true &&
+      readyToExplode.current === true &&
       tempCounterSetBool === true &&
       frameCounter.current === tempCounter &&
       afterFirst === false
@@ -370,15 +370,15 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       sphere2Ref.current.scale.set(base2, base2, base2);
     }
 
-    if (afterFirst === true && explosionDone === false) {
+    if (afterFirst === true && explosionDone.current === false) {
       base2 = s2 + base2;
       sphere2Ref.current.scale.set(base2, base2, base2);
 
-      if (explosionDone === false) {
+      if (explosionDone.current === false) {
       }
       setTimeout(function () {
-        if (explosionDone === false) {
-          explosionDone = true;
+        if (explosionDone.current === false) {
+          explosionDone.current = true;
           showForeground = true;
           axeRef.current.visible = false;
           meshRef.current.visible = false;
