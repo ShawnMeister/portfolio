@@ -19,7 +19,7 @@ thetaLength
 */
 
 import { useFrame, useLoader, useThree } from "react-three-fiber";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
 import { WebGLRenderer } from "three";
@@ -27,66 +27,21 @@ import { WebGLRenderer } from "three";
 const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   const meshRef = useRef();
   const diamondRef = useRef();
-  const time = useRef(0);
-
-  // position
-  /*   const position = useMemo(() => {
-			return [random(-5, 5, true), random(-10, 10, true), random(-5, 5, true)];
-			}, []); */
+  // const time = useRef(0);
 
   const position = useMemo(() => {
     return [0, 0, 0];
   }, []);
 
-  // random time mod factor
-  /*  const timeMod = useMemo(() => random(0.1, 4, true), []); */
-
-  //const timeMod = useMemo(() => 2, []);
-
-  // color
-  // let color = isHovered ? 0xe5d54d : (isActive ? 0xf7e7e5 : 0xf95b3c);
-
-  // raf loop
-  //that means request animation frame
   useFrame(() => {
-    /* mesh.current.rotation.y += 0.01 * timeMod; */
     if (!axeToEmeraldAnimationDone) {
       meshRef.current.rotation.y += 0.05;
     }
   });
 
-  // Hover Events
-  /*   const onHover = useCallback(
-			(e, value) => {
-			  e.stopPropagation();
-			  setIsHovered(value);
-			},
-			[setIsHovered]
-		  ); */
-
-  // const onClick = useCallback(
-  //   (e) => {
-  //     e.stopPropagation();
-  //     setIsActive((v) => !v);
-  //   },
-  //   [setIsActive]
-  // );
-
   const model = useLoader(GLTFLoader, "/scene.gltf");
-
   const axeRef = useRef();
   const { viewport } = useThree();
-  let readyToExplode = false;
-  let explosionDone = false;
-  let countAxeClicks = 0;
-  let introAnimationDone = false;
-  let axeToEmeraldAnimationDone = false;
-  let isAxeClicked = false;
-  let clockwiseFlag = false;
-  const lightRef = useRef();
-
-  let zTiltCounter = 0;
-  let frameCounter = 0;
   const zlowTilt = 1.65;
   const zhighTilt = 1.9;
   const zTiltSpeed = 0.04;
@@ -96,27 +51,58 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   const zhighTiltBottomBoundary = zhighTilt - zTiltSpeed * 1.5;
 
   const axeClicked = () => {
-    if (introAnimationDone === true) {
-      isAxeClicked = true;
-      frameCounter = 0;
+    if (introAnimationDone.current === true) {
+      isAxeClicked.current = true;
+      frameCounter.current = 0;
     }
   };
 
   useEffect(() => {
     const renderer = new WebGLRenderer({ antialias: true });
     renderer.outputEncoding = THREE.sRGBEncoding;
+
+    // let readyToExplode = false;
+    // let explosionDone = false;
+    // let countAxeClicks.current = 0;
+    // let introAnimationDone.current = false;
+
+    // let axeToEmeraldAnimationDone = false;
+    // let isAxeClicked.current = false;
+    // let clockwiseFlag = false;
+
+    // let zTiltCounter = 0;
+    // let frameCounter.current=0;
   }, []);
 
+  let readyToExplode = false;
+  let explosionDone = false;
+  const countAxeClicks = useRef(0);
+
+  // let countAxeClicks.current = 0;
+  const introAnimationDone = useRef(false);
+  const isAxeClicked = useRef(false);
+  console.log(
+    "at the declaration countAxeClicks.current: " + countAxeClicks.current
+  );
+  console.log("at the declaration is axe clicked: " + isAxeClicked.current);
+
+  let axeToEmeraldAnimationDone = false;
+  let clockwiseFlag = false;
+  // const lightRef = useRef();
+
+  let zTiltCounter = 0;
+  const frameCounter = useRef(0);
+
   const floatAxe = () => {
-    if (frameCounter < 76) {
+    if (frameCounter.current < 76) {
       axeRef.current.rotation.x = axeRef.current.rotation.x - 0.0001;
       axeRef.current.rotation.y = axeRef.current.rotation.y + 0.0001;
-    } else if (frameCounter < 150) {
+    } else if (frameCounter.current < 150) {
       axeRef.current.rotation.x = axeRef.current.rotation.x + 0.0001;
       axeRef.current.rotation.y = axeRef.current.rotation.y - 0.0001;
     }
-    if (frameCounter > 150) {
-      frameCounter = 0;
+    if (frameCounter.current > 150) {
+      frameCounter.current = 0;
       zTiltCounter = 0;
     }
   };
@@ -125,7 +111,8 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     let toEmeraldFlag = false;
     backAndForth();
 
-    if (countAxeClicks === 2) {
+    console.log("inside axeToEmerald animation: " + countAxeClicks.current);
+    if (countAxeClicks.current === 2) {
       toEmeraldFlag = true;
       backAndForth();
     }
@@ -139,11 +126,11 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       // };
 
       if (
-        isAxeClicked === true &&
-        introAnimationDone === true &&
+        isAxeClicked.current === true &&
+        introAnimationDone.current === true &&
         axeToEmeraldAnimationDone === false &&
-        frameCounter < 50 &&
-        countAxeClicks < 3
+        frameCounter.current < 50 &&
+        countAxeClicks.current < 3
       ) {
         axeRef.current.position.x = axeRef.current.position.x + 0.2025;
         axeRef.current.position.y = axeRef.current.position.y + 0.05;
@@ -153,14 +140,14 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
           axeRef.current.position.z = axeRef.current.position.z - 0.2;
           axeRef.current.rotation.z = axeRef.current.rotation.z - 1.25;
         }
-        frameCounter = frameCounter + 1;
+        frameCounter.current = frameCounter.current + 1;
       } else if (
-        isAxeClicked === true &&
-        introAnimationDone === true &&
+        isAxeClicked.current === true &&
+        introAnimationDone.current === true &&
         axeToEmeraldAnimationDone === false &&
-        frameCounter >= 50 &&
-        frameCounter < 100 &&
-        countAxeClicks < 3
+        frameCounter.current >= 50 &&
+        frameCounter.current < 100 &&
+        countAxeClicks.current < 3
       ) {
         //last time goes to emerald
         if (toEmeraldFlag === false) {
@@ -181,12 +168,13 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
             // meshRef.current.position.x = 0;
             // meshRef.current.position.y = 0;
             meshRef.current.position.z += 0.5;
-            isAxeClicked = false;
+            isAxeClicked.current = false;
           }
         }
-        frameCounter = frameCounter + 1;
-        if (frameCounter === 100) {
-          countAxeClicks = countAxeClicks + 1;
+        frameCounter.current = frameCounter.current + 1;
+        if (frameCounter.current === 100) {
+          // setcountAxeClicks.current(countAxeClicks.current + 1);
+          countAxeClicks.current = countAxeClicks.current + 1;
         }
       }
     }
@@ -195,7 +183,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   const smashTheEmerald = (mouse) => {
     if (
       mouse.x > 0.35 &&
-      isAxeClicked === true &&
+      isAxeClicked.current === true &&
       axeToEmeraldAnimationDone === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
@@ -204,7 +192,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       axeRef.current.rotation.x = -0.02;
     } else if (
       mouse.x > 0.3 &&
-      isAxeClicked === true &&
+      isAxeClicked.current === true &&
       axeToEmeraldAnimationDone === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
@@ -213,7 +201,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       axeRef.current.rotation.x = 0;
     } else if (
       mouse.x > 0.25 &&
-      isAxeClicked === true &&
+      isAxeClicked.current === true &&
       axeToEmeraldAnimationDone === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
@@ -222,7 +210,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       axeRef.current.rotation.x = 0.02;
     } else if (
       mouse.x > 0.25 &&
-      isAxeClicked === true &&
+      isAxeClicked.current === true &&
       axeToEmeraldAnimationDone === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
@@ -231,7 +219,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       axeRef.current.rotation.x = 0.04;
     } else if (
       mouse.x > 0.2 &&
-      isAxeClicked === true &&
+      isAxeClicked.current === true &&
       axeToEmeraldAnimationDone === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
@@ -240,7 +228,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       axeRef.current.rotation.x = 0.06;
     } else if (
       mouse.x > -5 &&
-      isAxeClicked === true &&
+      isAxeClicked.current === true &&
       axeToEmeraldAnimationDone === true
     ) {
       axeRef.current.position.x = (mouse.x * viewport.width) / 2;
@@ -254,16 +242,16 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       mouse.x < 0.2 &&
       mouse.y > -0.2 &&
       mouse.y < 0.2 &&
-      isAxeClicked === true &&
+      isAxeClicked.current === true &&
       axeToEmeraldAnimationDone === true &&
-      frameCounter > 100
+      frameCounter.current > 100
     ) {
       readyToExplode = true;
     }
   };
 
   const wiggleAxe = () => {
-    frameCounter = frameCounter + 1;
+    frameCounter.current = frameCounter.current + 1;
 
     floatAxe();
 
@@ -312,27 +300,27 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
       }
     }
   };
-  //the control frame
+
   useFrame(({ mouse }) => {
     if (explosionDone === false) {
-      frameCounter = frameCounter + 1;
+      frameCounter.current = frameCounter.current + 1;
 
       if (
-        frameCounter > 50 &&
-        frameCounter <= 100 &&
-        introAnimationDone === false &&
-        isAxeClicked === false
+        frameCounter.current > 50 &&
+        frameCounter.current <= 100 &&
+        introAnimationDone.current === false &&
+        isAxeClicked.current === false
       ) {
         axeRef.current.rotation.y = axeRef.current.rotation.y + 0.1255 * 2;
         if (axeRef.current.rotation.y > 12.5) {
-          introAnimationDone = true;
-          frameCounter = 0;
+          introAnimationDone.current = true;
+          frameCounter.current = 0;
         }
       }
 
       if (
-        isAxeClicked === false &&
-        introAnimationDone === true &&
+        isAxeClicked.current === false &&
+        introAnimationDone.current === true &&
         axeToEmeraldAnimationDone === false
       ) {
         wiggleAxe();
@@ -362,19 +350,18 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   useFrame(() => {
     if (readyToExplode === true && tempCounterSetBool === false) {
       tempCounterSetBool = true;
-      tempCounter = frameCounter + 5;
+      tempCounter = frameCounter.current + 5;
     }
     if (readyToExplode === true) {
       base = s + base;
       sphereRef.current.scale.set(base, base, base);
       meshRef.current.scale.set(0.5, 0.5, 0.5);
-
     }
 
     if (
       readyToExplode === true &&
       tempCounterSetBool === true &&
-      frameCounter === tempCounter &&
+      frameCounter.current === tempCounter &&
       afterFirst === false
     ) {
       base2 = s2 + base2;
@@ -405,7 +392,6 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
   });
 
   const myCallback = (dataFromChild) => {
-    console.log("You working?");
     dataFromChild = showForeground;
   };
 

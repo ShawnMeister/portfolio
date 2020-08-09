@@ -10,6 +10,7 @@ import { Button, Navbar, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SocialIcon } from "react-social-icons";
 import { isMobile } from "react-device-detect";
+import { forceResize } from "react-three-fiber";
 
 import {
   BrowserRouter as Router,
@@ -31,8 +32,10 @@ const App = (props) => {
   const myCallback = (dataFromChild) => {
     setShowForeground(dataFromChild);
     setRedirectTo("/home");
-    console.log("you really working???");
   };
+
+  const suspense = { id: 0 };
+  const animations = { id: 1 };
 
   return (
     <Router>
@@ -52,8 +55,9 @@ const App = (props) => {
               <Lights />
               <Environment />
 
-              <Suspense fallback={null}>
+              <Suspense fallback={null} key={suspense.id}>
                 <Animations
+                  key={animations.id}
                   isDisplayed={isDisplayed}
                   callbackFromParent={myCallback}
                   showForeground={showForeground}
@@ -119,7 +123,8 @@ const HeroSection = () => {
         <h1 className="jumbo-header">Welcome</h1>
         <br />
         <h5 className="jumbo-content">
-          This site was built with React, <br/>React Three Fiber, and more.
+          This site was built with React, <br />
+          React Three Fiber, and more.
           <br /> <br />
           Let's make an impact! <br /> <br />
           👨🏿‍💻👨‍💻👩‍💻
