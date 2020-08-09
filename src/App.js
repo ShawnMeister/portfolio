@@ -115,13 +115,11 @@ const SpaceBackground = () => {
 const HeroSection = () => {
   return (
     <div>
-      <div className="m-4  jumboTron ">
+      <div className=" jumboTron ">
         <h1 className="jumbo-header">Welcome</h1>
         <br />
         <h5 className="jumbo-content">
-          This site was mainly built with React
-          <br />
-          and React Three Fiber.
+          This site was built with React, <br/>React Three Fiber, and more.
           <br /> <br />
           Let's make an impact! <br /> <br />
           👨🏿‍💻👨‍💻👩‍💻
