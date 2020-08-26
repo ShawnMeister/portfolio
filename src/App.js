@@ -214,19 +214,21 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
 const NavSection = () => {
 	return (
 		<Navbar expand="lg" className="  sticky-top w-100">
-			<Navbar.Brand href="/home">
-				<img
-					src={miniAxe}
-					className=" pt-2 pb-2 d-inline-block align-top"
-					alt="React Bootstrap logo"
-				/>
-			</Navbar.Brand>
+			<div className="row navName">
+				<Navbar.Brand href="/home">
+					<img
+						src={miniAxe}
+						className="p-0 col pt-2 pb-2 d-inline-block align-top"
+						alt="React Bootstrap logo"
+					/>
+				</Navbar.Brand>
 
-			<Nav className="mr-auto h2 font-weight-bold">
-				<Nav.Link className="navName" href="home">
-					Shawn Mountenay
-				</Nav.Link>
-			</Nav>
+				<Nav className=" p-0 col mr-auto h2 font-weight-bold">
+					<Nav.Link className=" p-0 offWhite" href="home">
+						Shawn Mountenay
+					</Nav.Link>
+				</Nav>
+			</div>
 			<Nav className="ml-auto row">
 				<SocialIcon
 					className="mr-2 mt-1 col"

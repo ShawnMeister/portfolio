@@ -55,6 +55,31 @@
 
 	@media only screen and (max-width: 400px) {
 		font-size: xx-large !important;
+		flex-direction: row !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+		justify-content: space-evenly !important;
+
+		width: 100%;
+		color: #e5ede4 !important;
+	}
+}
+
+.offWhite {
+	color: #e5ede4 !important;
+	text-align: left !important;
+	align-self: center !important;
+}
+
+.navbar-nav {
+	color: #e5ede4 !important;
+	@media only screen and (max-width: 500px) {
+		color: #e5ede4 !important;
+		flex-direction: row !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+		justify-content: space-evenly !important;
+		width: 100%;
 	}
 }
 
