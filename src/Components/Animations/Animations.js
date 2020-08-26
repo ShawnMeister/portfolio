@@ -24,7 +24,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
 import { WebGLRenderer } from "three";
 
-const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
+const Animations = ({ showForeground, callbackFromParent }) => {
   const meshRef = useRef();
   const diamondRef = useRef();
   // const time = useRef(0);
@@ -391,9 +391,7 @@ const Animations = ({ showForeground, isDisplayed, callbackFromParent }) => {
     }
   });
 
-  const myCallback = (dataFromChild) => {
-    dataFromChild = showForeground;
-  };
+
 
   return [
     <group>
