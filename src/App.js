@@ -214,14 +214,16 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
 const NavSection = () => {
 	return (
 		<Navbar expand="lg" className="  sticky-top w-100">
-			<div className="row navName">
-				<Navbar.Brand href="/home">
-					<img
-						src={miniAxe}
-						className="p-0 col pt-2 pb-2 d-inline-block align-top"
-						alt="React Bootstrap logo"
-					/>
-				</Navbar.Brand>
+			<div className="row navName ">
+				{isMobile ? null : (
+					<Navbar.Brand href="/home">
+						<img
+							src={miniAxe}
+							className="p-0 col pt-2 pb-2 d-inline-block align-top"
+							alt="React Bootstrap logo"
+						/>
+					</Navbar.Brand>
+				)}
 
 				<Nav className=" p-0 col mr-auto h2 font-weight-bold">
 					<Nav.Link className=" p-0 offWhite" href="home">
@@ -231,7 +233,7 @@ const NavSection = () => {
 			</div>
 			<Nav className="ml-auto row">
 				<SocialIcon
-					className="mr-2 mt-1 col"
+					className="mr-2 mt-1 col  ml-4"
 					url="https://www.linkedin.com/in/shawn-m-045995150"
 					fgColor="#ccd9ca"
 					bgColor="none"
