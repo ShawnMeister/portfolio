@@ -13,37 +13,37 @@
 @import "~bootstrap/scss/bootstrap";
 
 .App {
-	text-align: center;
-	position: relative;
-	height: 100vh;
-	/* the cursor is some kind of work around..*/
-	/* cursor: url('./images/BattleAxe/DestinyAxeSmall.png'), auto; */
-	overflow: hidden;
+  text-align: center;
+  position: relative;
+  height: 100vh;
+  /* the cursor is some kind of work around..*/
+  /* cursor: url('./images/BattleAxe/DestinyAxeSmall.png'), auto; */
+  overflow: hidden;
 
-	font-family: monospace;
+  font-family: monospace;
 }
 
 .container {
-	display: flex;
-	width: 100vw;
-	flex-direction: column;
-	justify-content: space-between;
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 @media only screen and (max-width: 400px) {
-	.container {
-		overflow-y: auto;
-		overflow-x: hidden;
-		height: auto;
-	}
+  .container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+  }
 }
 
 @media only screen and (max-height: 500px) {
-	.container {
-		overflow-y: auto;
-		overflow-x: hidden;
-		height: auto;
-	}
+  .container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+  }
 }
 
 // #url_public_id {
@@ -51,124 +51,124 @@
 // }
 
 .navName {
-	color: #e5ede4 !important;
-	margin-left: 1.5rem !important;
+  color: #e5ede4 !important;
+  margin-left: 1.5rem !important;
 
-	@media only screen and (max-width: 800px) {
-		font-size: xx-large !important;
-		flex-direction: row !important;
-		margin-left: auto !important;
-		margin-right: auto !important;
-		justify-content: space-evenly !important;
-		margin-left: auto;
-		margin-right: auto;
-		width: 100%;
-		color: #e5ede4 !important;
-	}
+  @media only screen and (max-width: 800px) {
+    font-size: xx-large !important;
+    flex-direction: row !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: space-evenly !important;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    color: #e5ede4 !important;
+  }
 }
 
 .offWhite {
-	color: #e5ede4 !important;
-	text-align: left !important;
-	align-self: center !important;
+  color: #e5ede4 !important;
+  text-align: left !important;
+  align-self: center !important;
 }
 
 .navbar-nav {
-	color: #e5ede4 !important;
-	@media only screen and (max-width: 500px) {
-		color: #e5ede4 !important;
-		flex-direction: row !important;
-		margin-left: auto !important;
-		margin-right: auto !important;
-		justify-content: space-evenly !important;
-		width: 100%;
-	}
+  color: #e5ede4 !important;
+  @media only screen and (max-width: 500px) {
+    color: #e5ede4 !important;
+    flex-direction: row !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: space-evenly !important;
+    width: 100%;
+  }
 }
 
 .jumboTronInstructions {
-	color: #37ff14e8 !important;
-	background-color: #343a40 !important;
-	// border-radius: 5%;
-	margin-left: 2rem;
-	margin-top: 1rem;
-	// background-color: rgb(44, 44, 64) !important;
-	// background-image: url("./Assets/videos/digital-static.mp4");
-	// text-shadow: 1px 1px 2px green;
-	z-index: 99;
-	// position: relative;
+  color: #37ff14e8 !important;
+  background-color: #343a40 !important;
+  // border-radius: 5%;
+  margin-left: 2rem;
+  margin-top: 1rem;
+  // background-color: rgb(44, 44, 64) !important;
+  // background-image: url("./Assets/videos/digital-static.mp4");
+  // text-shadow: 1px 1px 2px green;
+  z-index: 99;
+  // position: relative;
 
-	font-size: 1rem;
-	// box-shadow: -1px 1px 1px white;
-	background: hidden !important;
-	box-shadow: -1px 1px 20px #5c6b7a;
-	padding: 3rem 5rem;
+  font-size: 1rem;
+  // box-shadow: -1px 1px 1px white;
+  background: hidden !important;
+  box-shadow: -1px 1px 20px #5c6b7a;
+  padding: 3rem 5rem;
 }
 
 .jumboTron {
-	@media only screen and (max-width: 500px) {
-		padding: 2.5rem 1rem;
-		margin: 1.5em 3em;
-	}
+  @media only screen and (max-width: 500px) {
+    padding: 1.25rem 0.5rem;
+    margin: 1.5em 3em;
+  }
 
-	margin: 2em 5m;
-	color: #37ff14e8 !important;
-	background-color: #343a40 !important;
-	// border-radius: 5%;
+  margin: 2em 5m;
+  color: #37ff14e8 !important;
+  background-color: #343a40 !important;
+  // border-radius: 5%;
 
-	// background-color: rgb(44, 44, 64) !important;
-	// background-image: url("./Assets/videos/digital-static.mp4");
-	// text-shadow: 1px 1px 2px green;
-	z-index: 99;
-	// position: relative;
-	opacity: 0.95;
-	font-size: 1rem;
-	// box-shadow: -1px 1px 1px white;
-	background: hidden !important;
-	box-shadow: -1px 1px 20px #5c6b7a;
-	padding: 2.5rem 7.5rem;
+  // background-color: rgb(44, 44, 64) !important;
+  // background-image: url("./Assets/videos/digital-static.mp4");
+  // text-shadow: 1px 1px 2px green;
+  z-index: 99;
+  // position: relative;
+  opacity: 0.95;
+  font-size: 1rem;
+  // box-shadow: -1px 1px 1px white;
+  background: hidden !important;
+  box-shadow: -1px 1px 20px #5c6b7a;
+  padding: 2.5rem 7.5rem;
 }
 .cta-btn {
-	box-shadow: 0px 10px 14px -7px #3e7327;
-	background: linear-gradient(to bottom, #6e7a86 15%, #030f01 100%);
+  box-shadow: 0px 10px 14px -7px #3e7327;
+  background: linear-gradient(to bottom, #6e7a86 15%, #030f01 100%);
 
-	border-radius: 4px;
-	border: 0px solid #4b8f29;
-	display: inline-block;
-	cursor: pointer;
-	color: #8bff76;
-	font-size: 20px;
-	font-weight: bold;
-	padding: 6px 12px;
-	margin: 2px 4px !important;
-	text-decoration: none;
-	text-shadow: 0px 1px 0px #5b8a3c;
+  border-radius: 4px;
+  border: 0px solid #4b8f29;
+  display: inline-block;
+  cursor: pointer;
+  color: #8bff76;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 6px 12px;
+  margin: 2px 4px !important;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #5b8a3c;
 }
 .cta-btn:hover {
-	border-width: 0px !important;
-	background: linear-gradient(to bottom, #495664 15%, #010500 100%);
-	padding: 8px 16px;
-	text-decoration: none;
-	color: #60ff44;
-	margin: 0px 0px !important;
-	// border: 0px;
+  border-width: 0px !important;
+  background: linear-gradient(to bottom, #495664 15%, #010500 100%);
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #60ff44;
+  margin: 0px 0px !important;
+  // border: 0px;
 }
 .cta-btn:active {
-	text-decoration: none;
-	position: relative;
-	color: white;
-	top: 1px;
+  text-decoration: none;
+  position: relative;
+  color: white;
+  top: 1px;
 }
 
 .btn-wrapper {
-	padding: 10px;
+  padding: 10px;
 }
 
 .jumbo-content {
-	color: #39ff14;
+  color: #39ff14;
 }
 
 .jumbo-header {
-	color: #3be01e;
+  color: #3be01e;
 }
 
 // .jumboTron video {
@@ -179,45 +179,45 @@
 // }
 
 .canvas {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	z-index: 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
 }
 
 .customContainer {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
-	z-index: 1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .skipIntro {
-	position: fixed;
-	bottom: 0px;
-	right: 0px;
-	margin-right: 5vw;
-	margin-bottom: 5vh;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  margin-right: 5vw;
+  margin-bottom: 5vh;
 }
 
 .opacity-0 {
-	opacity: 0 !important;
+  opacity: 0 !important;
 }
 .opacity-1 {
-	opacity: 0.2 !important;
+  opacity: 0.2 !important;
 }
 .opacity-2 {
-	opacity: 0.4 !important;
+  opacity: 0.4 !important;
 }
 .opacity-3 {
-	opacity: 0.6 !important;
+  opacity: 0.6 !important;
 }
 .opacity-4 {
-	opacity: 0.8 !important;
+  opacity: 0.8 !important;
 }
 .opacity-5 {
-	opacity: 1 !important;
+  opacity: 1 !important;
 }

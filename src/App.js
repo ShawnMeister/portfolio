@@ -140,17 +140,17 @@ const HeroSection = () => {
 	return (
 		<div>
 			<div className=" jumboTron ">
-				<h1 className="jumbo-header">Welcome</h1>
+				<h2 className="jumbo-header">Welcome</h2>
 				<br />
-				<h5 className="jumbo-content">
+				<h6 className="jumbo-content">
 					This site was built with React, <br />
 					React Three Fiber, and more.
 					<br /> <br />
 					Let's make an impact! <br /> <br />
 					👨🏿‍💻👨‍💻👩‍💻
-				</h5>
+				</h6>
 
-				<br />
+		
 				<div className="btn-wrapper">
 					<a href="mailto:shawn.mountenay@gmail.com" className="cta-btn">
 						CONTACT ME HERE
@@ -249,7 +249,7 @@ const NavSection = () => {
 				/>
 				<SocialIcon
 					network="github"
-					url="https://github.com/ShawnMeister"
+					url="https://github.com/shawn-p-m"
 					bgColor="none"
 					fgColor="#ccd9ca"
 					className="mr-4 mt-1 col"
