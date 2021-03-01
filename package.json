@@ -18,7 +18,7 @@
     "react-scripts": "^4.0.1",
     "react-social-icons": "^4.1.0",
     "react-three-fiber": "^4.2.20",
-    "three": "^0.118.3",
+    "three": "^0.125.0",
     "tsutils": "^3.17.1",
     "yargs-parser": "^18.1.3"
   },
