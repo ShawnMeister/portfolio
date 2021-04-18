@@ -1,19 +1,20 @@
-import React, { useRef } from "react";
-import { map } from "lodash";
-import { useFrame } from "react-three-fiber";
+import React, { useRef } from 'react'
+import { map } from 'lodash'
+/* eslint-disable react/display-name */
+import { useFrame } from 'react-three-fiber'
 
-import Sphere from "./Sphere";
+import Sphere from './Sphere'
 
 export default () => {
-  const group = useRef();
+    const group = useRef()
 
-  useFrame(() => {
-    group.current.rotation.y -= 0.001;
-  });
+    useFrame(() => {
+        group.current.rotation.y -= 0.001
+    })
 
-  const nodesSpheres = map(new Array(1), (el, i) => {
-    return <Sphere key={i} />;
-  });
+    const nodesSpheres = map(new Array(1), (el, i) => {
+        return <Sphere key={i} />
+    })
 
-  return <group ref={group}>{nodesSpheres}</group>;
-};
+    return <group ref={group}>{nodesSpheres}</group>
+}

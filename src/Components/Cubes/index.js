@@ -1,19 +1,19 @@
-import React, { useRef } from "react";
-import { map } from "lodash";
-import { useFrame } from "react-three-fiber";
+import React, { useRef } from 'react'
+import { map } from 'lodash'
+import { useFrame } from 'react-three-fiber'
 
-import Cube from "./Cube";
+import Cube from './Cube'
 
 export default () => {
-  const group = useRef();
+    const group = useRef()
 
-  useFrame(() => {
-    group.current.rotation.y += 0.005;
-  });
+    useFrame(() => {
+        group.current.rotation.y += 0.005
+    })
 
-  const nodesCubes = map(new Array(50), (el, i) => {
-    return <Cube key={i} />;
-  });
+    const nodesCubes = map(new Array(50), (el, i) => {
+        return <Cube key={i} />
+    })
 
-  return <group ref={group}>{nodesCubes}</group>;
-};
+    return <group ref={group}>{nodesCubes}</group>
+}

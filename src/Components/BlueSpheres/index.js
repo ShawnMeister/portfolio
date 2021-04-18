@@ -4,33 +4,25 @@ import { useFrame } from 'react-three-fiber'
 
 import Sphere from './Sphere'
 
-export const BlueSpheres = () => {
+export default () => {
+    const group = useRef()
 
+    useFrame(() => {
+        group.current.rotation.y += 0.0003
+    })
 
+    const nodesSpheres = map(new Array(1000), (el, i) => {
+        return <Sphere key={i} />
+    })
 
-	
+    const nodesBackwardSpheres = map(new Array(1000), (el, i) => {
+        return <Sphere key={i} />
+    })
 
-
-
-
-	const group = useRef()
-
-	useFrame(() => {
-		group.current.rotation.y += 0.0003
-	})
-
-	const nodesSpheres = map(new Array(1000), (el, i) => {
-		return <Sphere key={i} />
-	})
-
-	const nodesBackwardSpheres = map(new Array(1000), (el, i) => {
-		return <Sphere key={i} />
-	})
-
-	return (
-		<mesh>
-			<group ref={group}>{nodesSpheres}</group>{' '}
-			<group ref={group}>{nodesBackwardSpheres}</group>
-		</mesh>
-	)
+    return (
+        <mesh>
+            <group ref={group}>{nodesSpheres}</group>{' '}
+            <group ref={group}>{nodesBackwardSpheres}</group>
+        </mesh>
+    )
 }
