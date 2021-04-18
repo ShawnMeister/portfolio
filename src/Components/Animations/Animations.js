@@ -79,12 +79,9 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 isAxeClicked.current,
                 axeRef.current.rotation,
                 axeToEmeraldAnimationDone.current,
-                wiggleAxe
+                wiggleAxe,
+                axeToEmeraldAnimation
             )
-
-            if (axeToEmeraldAnimationDone.current === false) {
-                axeToEmeraldAnimation()
-            }
 
             smashTheEmerald(mouse)
         } else {
@@ -230,13 +227,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
 
         function boomerangAxe() {
-            // const flashTheAxe = () => {
-            //   var light = new THREE.PointLight(0xff0000, 1, 100);
-            //   light.position.set(50, 50, 50);
-            //   scene.add(light);
-            //   return;
-            // };
-
             if (
                 isAxeClicked.current === true &&
                 introAnimationDone.current === true &&

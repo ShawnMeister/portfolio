@@ -12,7 +12,8 @@ export const explosionNotDone = (
     isAxeClicked,
     axeRefRotation,
     axeToEmeraldAnimationDone,
-    wiggleAxe
+    wiggleAxe,
+    axeToEmeraldAnimation
 ) => {
     if (
         frameCounter.current > 50 &&
@@ -26,9 +27,6 @@ export const explosionNotDone = (
             frameCounter.current = 0
         }
     }
-    console.log(isAxeClicked + ' isAxeClicked')
-    console.log(introAnimationDone.current + ' introAnimationDone')
-    console.log(axeToEmeraldAnimationDone + ' axeToEmeraldAnimationDone')
 
     if (
         isAxeClicked === false &&
@@ -36,5 +34,8 @@ export const explosionNotDone = (
         axeToEmeraldAnimationDone === false
     ) {
         wiggleAxe()
+    }
+    if (axeToEmeraldAnimationDone === false) {
+        axeToEmeraldAnimation()
     }
 }
