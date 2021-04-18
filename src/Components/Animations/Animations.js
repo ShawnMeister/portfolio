@@ -20,7 +20,7 @@ thetaLength
 */
 
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from 'three'
 import { WebGLRenderer } from 'three'
@@ -60,25 +60,12 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     useEffect(() => {
         const renderer = new WebGLRenderer({ antialias: true })
         renderer.outputEncoding = THREE.sRGBEncoding
-
-        // let readyToExplode.current = false;
-        // let explosionDone.current = false;
-        // let countAxeClicks.current = 0;
-        // let introAnimationDone.current = false;
-
-        // let axeToEmeraldAnimationDone.current = false;
-        // let isAxeClicked.current = false;
-        // let clockwiseFlag.current = false;
-
-        // let zTiltCounter.current = 0;
-        // let frameCounter.current=0;
     }, [])
 
     const readyToExplode = useRef(false)
     const explosionDone = useRef(false)
     const countAxeClicks = useRef(0)
 
-    // let countAxeClicks.current = 0;
     const introAnimationDone = useRef(false)
     const isAxeClicked = useRef(false)
     console.log('at the declaration countAxeClicks.current: ' + countAxeClicks.current)
@@ -86,7 +73,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
 
     const axeToEmeraldAnimationDone = useRef(false)
     const clockwiseFlag = useRef(false)
-    // const lightRef = useRef();
 
     const zTiltCounter = useRef(0)
     const frameCounter = useRef(0)
@@ -157,21 +143,16 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                     axeRef.current.rotation.z = axeRef.current.rotation.z + 1.25
                     if (axeRef.current.position.x < 1.05) {
                         axeToEmeraldAnimationDone.current = true
-                        // axeRef.current.position.x = 1.25;
-                        // axeRef.current.position.y = 0;
+
                         axeRef.current.position.z += 0.5
                         axeRef.current.rotation.z += 0.15
-                        // axeRef.current.position.x -= 0.2;
 
-                        // meshRef.current.position.x = 0;
-                        // meshRef.current.position.y = 0;
                         meshRef.current.position.z += 0.5
                         isAxeClicked.current = false
                     }
                 }
                 frameCounter.current = frameCounter.current + 1
                 if (frameCounter.current === 100) {
-                    // setcountAxeClicks.current(countAxeClicks.current + 1);
                     countAxeClicks.current = countAxeClicks.current + 1
                 }
             }
@@ -374,6 +355,12 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
     })
 
+    const [hovered, setHovered] = useState(false)
+
+    useEffect(() => {
+        document.body.style.cursor = hovered ? 'pointer' : 'auto'
+    }, [hovered])
+
     return (
         <group>
             <mesh>
@@ -384,6 +371,8 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                     rotation={[0, 0, 1.75]}
                     scale={[10, 10, 10]}
                     onClick={axeClicked}
+                    onPointerOver={() => setHovered(true)}
+                    onPointerOut={() => setHovered(false)}
                 />
             </mesh>
             <mesh ref={sphereRef}>
@@ -405,18 +394,8 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 <meshBasicMaterial color={0x39ff14} attach="material" />
             </mesh>
 
-            <mesh
-                ref={meshRef}
-                position={position}
-                // onClick={(e) => onClick(e)}
-
-                //onPointerOver={e => onHover(e, true)}
-                //onPointerOut={e => onHover(e, false)}
-            >
-                {/* Below in args, the first argument is the size of the spheres
-the second argument is  */}
+            <mesh ref={meshRef} position={position}>
                 <sphereBufferGeometry attach="geometry" args={[1, 6.3, 6.3, 6, 6.3, 6.3, 6.3]} />
-                {/* ,6,{philen},{thesta},{thelen} */}
 
                 <meshStandardMaterial
                     attach="material"
