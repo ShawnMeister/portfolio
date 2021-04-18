@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 
 import MountainForeground from './../../Assets/images/mountains-bottom-foreground.png'
 
-export default (props) => {
+export default () => {
     return (
         <div className="mountainForeground">
             <img alt="pic of Shawn" className="imgOnly" src={MountainForeground} />

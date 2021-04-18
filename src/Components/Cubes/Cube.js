@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { random } from 'lodash'
-import { useFrame } from 'react-three-fiber'
+import { useFrame } from '@react-three/fiber'
 
 export default () => {
     const mesh = useRef()
@@ -11,7 +11,6 @@ export default () => {
 
     const isActiveRef = useRef(isActive)
 
-    // position
     const position = useMemo(() => {
         return [random(-3, 3, true), random(-3, 3, true), random(-3, 3, true)]
     }, [])

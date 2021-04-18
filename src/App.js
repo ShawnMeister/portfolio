@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import './App.scss'
 import React, { useState, Suspense } from 'react'
-import { Canvas } from 'react-three-fiber'
+import { Canvas } from '@react-three/fiber'
 import BlueSpheres from './Components/BlueSpheres'
 import WhiteSpheres from './Components/WhiteSpheres'
 import Environment from './Components/Environment'
@@ -12,7 +12,7 @@ import { Button, Navbar, Nav } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { SocialIcon } from 'react-social-icons'
 import { isMobile } from 'react-device-detect'
-// import { forceResize } from "react-three-fiber";
+// import { forceResize } from "@react-three/fiber";
 
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom'
 import BottomForeground from './Components/BottomForeground'

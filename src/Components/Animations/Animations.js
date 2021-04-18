@@ -19,7 +19,7 @@ thetaStart
 thetaLength
 */
 
-import { useFrame, useLoader, useThree } from 'react-three-fiber'
+import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from 'three'
@@ -28,7 +28,6 @@ import { WebGLRenderer } from 'three'
 const Animations = ({ showForeground, callbackFromParent }) => {
     const meshRef = useRef()
     const diamondRef = useRef()
-    // const time = useRef(0);
 
     const position = useMemo(() => {
         return [0, 0, 0]
@@ -375,7 +374,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
     })
 
-    return [
+    return (
         <group>
             <mesh>
                 <primitive
@@ -428,6 +427,6 @@ the second argument is  */}
                 />
             </mesh>
         </group>
-    ]
+    )
 }
 export default Animations
