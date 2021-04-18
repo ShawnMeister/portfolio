@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import { map } from 'lodash'
-/* eslint-disable react/display-name */
 import { useFrame } from '@react-three/fiber'
 
 import Sphere from './Sphere'

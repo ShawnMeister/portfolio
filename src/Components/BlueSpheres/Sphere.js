@@ -3,10 +3,6 @@ import { random } from 'lodash'
 import { useFrame } from '@react-three/fiber'
 
 export default () => {
-    //mutable objects can be changed after they are created
-    //the useRef method is used to keep track everytime something is rendered
-    //it is generally used for counter variables, or variables that we want to keep
-    //track of outside the scope of the normal rendering of React
     const mesh = useRef()
     const time = useRef(0)
 
@@ -42,10 +38,7 @@ export default () => {
 
     return (
         <mesh ref={mesh} position={position}>
-            {/* Below in args, the first argument is the size of the spheres
-the second argument is  */}
             <sphereBufferGeometry attach="geometry" args={[0.00647, 0.00005, 7]} />
-
             <meshStandardMaterial attach="material" color={color} roughness={0.6} metalness={0.1} />
         </mesh>
     )

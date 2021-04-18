@@ -11,7 +11,6 @@ export default () => {
 
     const isActiveRef = useRef(isActive)
 
-    // position
     const position = useMemo(() => {
         return [random(-3, 3, true), random(-3, 3, true), random(-3, 3, true)]
     }, [])
