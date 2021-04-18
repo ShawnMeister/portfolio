@@ -27,14 +27,10 @@ import * as THREE from 'three'
 import { WebGLRenderer } from 'three'
 
 const Animations = ({ showForeground, callbackFromParent }) => {
-    const emeraldMeshRef = useRef()
-    const emeraldSurface = useRef()
     const [hovered, setHovered] = useState(false)
     const model = useLoader(GLTFLoader, '/scene.gltf')
-    const axeRef = useRef()
     const { viewport } = useThree()
 
-    //represent points in time
     const readyToExplode = useRef(false)
     const explosionDone = useRef(false)
     let afterFirst = false
@@ -43,12 +39,13 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     const axeToEmeraldAnimationDone = useRef(false)
 
     const countAxeClicks = useRef(0)
-    const sphereRef = useRef()
 
-    let changeInSphereSize = 0.06
+    const emeraldMeshRef = useRef()
+    const emeraldSurface = useRef()
+    const sphereRef = useRef()
     const sphere2Ref = useRef()
-    let baseExplosionSphereSize2 = 1
-    let s2 = 0.1
+    const axeRef = useRef()
+
     let tempCounter = -1
     let tempCounterSetBool = false
     const zTiltCounter = useRef(0)
@@ -62,11 +59,13 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     useEffect(() => {
         const renderer = new WebGLRenderer({ antialias: true })
         renderer.outputEncoding = THREE.sRGBEncoding
-    }, [])
-    useEffect(() => {
         document.body.style.cursor = hovered ? 'pointer' : 'auto'
     }, [hovered])
 
+    const changeInSphereSize = 0.06
+    let baseExplosionSphereSize = 2
+    const changeInSphereSize2 = 0.1
+    let baseExplosionSphereSize2 = 1
     useFrame(({ mouse }) => {
         if (!axeToEmeraldAnimationDone.current) rotateEmerald(emeraldMeshRef.current.rotation)
 
@@ -88,13 +87,12 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             explosionIsDone(axeRef.current.position)
         }
 
-        // was in another useFrame
         if (readyToExplode.current === true && tempCounterSetBool === false) {
             tempCounterSetBool = true
             tempCounter = frameCounter.current + 5
         }
+
         if (readyToExplode.current === true) {
-            let baseExplosionSphereSize = 2
             baseExplosionSphereSize = changeInSphereSize + baseExplosionSphereSize
             sphereRef.current.scale.set(
                 baseExplosionSphereSize,
@@ -110,7 +108,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             frameCounter.current === tempCounter &&
             afterFirst === false
         ) {
-            baseExplosionSphereSize2 = s2 + baseExplosionSphereSize2
+            baseExplosionSphereSize2 = changeInSphereSize2 + baseExplosionSphereSize2
 
             afterFirst = true
             sphere2Ref.current.scale.set(
@@ -121,7 +119,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
 
         if (afterFirst === true && explosionDone.current === false) {
-            baseExplosionSphereSize2 = s2 + baseExplosionSphereSize2
+            baseExplosionSphereSize2 = changeInSphereSize2 + baseExplosionSphereSize2
             sphere2Ref.current.scale.set(
                 baseExplosionSphereSize2,
                 baseExplosionSphereSize2,
