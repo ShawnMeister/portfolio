@@ -1,15 +1,15 @@
-import './App.scss'
-import React, { useState, Suspense } from 'react'
-import { Canvas } from 'react-three-fiber'
-import BlueSpheres from './Components/BlueSpheres'
-import WhiteSpheres from './Components/WhiteSpheres'
-import Environment from './Components/Environment'
-import Lights from './Components/Lights'
-import Animations from './Components/Animations/Animations'
-import { Button, Navbar, Nav } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { SocialIcon } from 'react-social-icons'
-import { isMobile } from 'react-device-detect'
+import "./App.scss";
+import React, { useState, Suspense } from "react";
+import { Canvas } from "react-three-fiber";
+import BlueSpheres from "./Components/BlueSpheres";
+import WhiteSpheres from "./Components/WhiteSpheres";
+import Environment from "./Components/Environment";
+import Lights from "./Components/Lights";
+import Animations from "./Components/Animations/Animations";
+import { Button, Navbar, Nav } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { SocialIcon } from "react-social-icons";
+import { isMobile } from "react-device-detect";
 // import { forceResize } from "react-three-fiber";
 
 import {
@@ -18,28 +18,28 @@ import {
 	Switch,
 	Redirect,
 	Link,
-} from 'react-router-dom'
-import BottomForeground from './Components/BottomForeground'
-import miniAxe from './Assets/images/DestinyAxeSmall.png'
+} from "react-router-dom";
+import BottomForeground from "./Components/BottomForeground";
+import miniAxe from "./Assets/images/DestinyAxeSmall.png";
 // import digitalStatic from "./Assets/videos/digital-static.mp4";
 // import jumboBg from "./Assets/images/jumbo-bg.jpg";
 
-const App = () => {
-	const [showForeground, setShowForeground] = useState(false)
-	const [isDisplayed, setIsDisplayed] = useState(false)
-	const [redirectTo, setRedirectTo] = useState('/')
+const App = (props) => {
+	const [showForeground, setShowForeground] = useState(false);
+	const [isDisplayed, setIsDisplayed] = useState(false);
+	const [redirectTo, setRedirectTo] = useState("/");
 
 	const myCallback = (dataFromChild) => {
-		setShowForeground(dataFromChild)
-		setRedirectTo('/home')
-	}
+		setShowForeground(dataFromChild);
+		setRedirectTo("/home");
+	};
 
 	const instructionsDone = (dataFromChild) => {
-		setIsDisplayed(dataFromChild)
-	}
+		setIsDisplayed(dataFromChild);
+	};
 
-	const suspense = { id: 0 }
-	const animations = { id: 1 }
+	const suspense = { id: 0 };
+	const animations = { id: 1 };
 
 	return (
 		<Router>
@@ -52,7 +52,7 @@ const App = () => {
 						<Redirect exact from="/" to="/enter" />
 					)}
 
-					<Route path={'/enter'}>
+					<Route path={"/enter"}>
 						<Canvas className="canvas" camera={{ position: [0, 0, 4] }}>
 							<WhiteSpheres />
 							<BlueSpheres />
@@ -95,7 +95,7 @@ const App = () => {
 							</Button>
 						</div>
 					</Route>
-					<Route path={'/home'}>
+					<Route path={"/home"}>
 						<div className="customContainer  ">
 							<div className=" h-100  container mr-0 ml-0 mw-100 pr-0 pl-0">
 								<div className="row">
@@ -121,9 +121,9 @@ const App = () => {
 				</Switch>
 			</div>
 		</Router>
-	)
-}
-export default App
+	);
+};
+export default App;
 
 const SpaceBackground = () => {
 	return (
@@ -133,8 +133,8 @@ const SpaceBackground = () => {
 			<Lights />
 			<Environment />
 		</Canvas>
-	)
-}
+	);
+};
 
 const HeroSection = () => {
 	return (
@@ -157,18 +157,19 @@ const HeroSection = () => {
 					</a>
 				</div>
 
+				{/* <video autoPlay={true} muted={true} loop={false}>
+          <source src={digitalStatic} type="video/mp4" />
+        </video> */}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-
-
-const Instructions = ( instructionsDoneCallback, isDisplayed ) => {
-	const sayHello = () => {
-		isDisplayed = true
-		instructionsDoneCallback(isDisplayed)
-	}
+const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
+	const sayHello = (dataFromChild) => {
+		isDisplayed = true;
+		instructionsDoneCallback(isDisplayed);
+	};
 
 	return (
 		<div>
@@ -202,11 +203,13 @@ const Instructions = ( instructionsDoneCallback, isDisplayed ) => {
 					</div>
 				</div>
 
-
+				{/* <video autoPlay={true} muted={true} loop={false}>
+          <source src={digitalStatic} type="video/mp4" />
+        </video> */}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 const NavSection = () => {
 	return (
@@ -254,7 +257,31 @@ const NavSection = () => {
 				/>
 			</Nav>
 		</Navbar>
-	)
-}
+	);
+};
 
+const CanvasAndAnimations = (props) => {
+	const [redirectTo, setRedirectTo] = useState("/");
+	const [showForeground, setShowForeground] = useState(false);
 
+	const myCallback = (dataFromChild) => {
+		setShowForeground(dataFromChild);
+		setRedirectTo("/home");
+	};
+
+	return (
+		<Canvas className="canvas" camera={{ position: [0, 0, 4] }}>
+			<WhiteSpheres />
+			<BlueSpheres />
+			<Lights />
+			<Environment />
+
+			<Suspense fallback={null}>
+				<Animations
+					callbackFromParent={myCallback}
+					showForeground={showForeground}
+				/>
+			</Suspense>
+		</Canvas>
+	);
+};
