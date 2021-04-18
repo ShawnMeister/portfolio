@@ -28,27 +28,136 @@ import { WebGLRenderer } from 'three'
 const Animations = ({ showForeground, callbackFromParent }) => {
     const meshRef = useRef()
     const diamondRef = useRef()
+    const [hovered, setHovered] = useState(false)
+    const model = useLoader(GLTFLoader, '/scene.gltf')
+    const axeRef = useRef()
+    const { viewport } = useThree()
+
+    const readyToExplode = useRef(false)
+    const explosionDone = useRef(false)
+    const countAxeClicks = useRef(0)
+
+    const sphereRef = useRef()
+    let baseExplosionSphereSize = 2
+    let changeInSphereSize = 0.06
+    const sphere2Ref = useRef()
+    let baseExplosionSphereSize2 = 1
+    let s2 = 0.1
+    let tempCounter = -1
+    let tempCounterSetBool = false
+    let afterFirst = false
+    const introAnimationDone = useRef(false)
+    const isAxeClicked = useRef(false)
+    const axeToEmeraldAnimationDone = useRef(false)
+    const zTiltCounter = useRef(0)
+    const frameCounter = useRef(0)
 
     const position = useMemo(() => {
         return [0, 0, 0]
     }, [])
+    const clockwiseFlag = useRef(false)
 
-    useFrame(() => {
+    useEffect(() => {
+        const renderer = new WebGLRenderer({ antialias: true })
+        renderer.outputEncoding = THREE.sRGBEncoding
+    }, [])
+    useEffect(() => {
+        document.body.style.cursor = hovered ? 'pointer' : 'auto'
+    }, [hovered])
+
+    useFrame(({ mouse }) => {
+        //was in a different useFrame
         if (!axeToEmeraldAnimationDone.current) {
             meshRef.current.rotation.y += 0.05
         }
-    })
 
-    const model = useLoader(GLTFLoader, '/scene.gltf')
-    const axeRef = useRef()
-    const { viewport } = useThree()
-    const zlowTilt = 1.65
-    const zhighTilt = 1.9
-    const zTiltSpeed = 0.04
-    const zlowTiltUpperBoundary = zlowTilt + zTiltSpeed * 1.5
-    const zlowTiltBottomBoundary = zlowTilt - zTiltSpeed * 1.5
-    const zhighTiltUpperBoundary = zhighTilt + zTiltSpeed * 1.5
-    const zhighTiltBottomBoundary = zhighTilt - zTiltSpeed * 1.5
+        //was in 1 useFrame
+        if (explosionDone.current === false) {
+            frameCounter.current = frameCounter.current + 1
+
+            if (
+                frameCounter.current > 50 &&
+                frameCounter.current <= 100 &&
+                introAnimationDone.current === false &&
+                isAxeClicked.current === false
+            ) {
+                axeRef.current.rotation.y = axeRef.current.rotation.y + 0.1255 * 2
+                if (axeRef.current.rotation.y > 12.5) {
+                    introAnimationDone.current = true
+                    frameCounter.current = 0
+                }
+            }
+
+            if (
+                isAxeClicked.current === false &&
+                introAnimationDone.current === true &&
+                axeToEmeraldAnimationDone.current === false
+            ) {
+                wiggleAxe()
+            }
+
+            if (axeToEmeraldAnimationDone.current === false) {
+                axeToEmeraldAnimation()
+            }
+
+            smashTheEmerald(mouse)
+        } else {
+            axeRef.current.position.x = 100
+        }
+
+        // was in another useFrame
+        if (readyToExplode.current === true && tempCounterSetBool === false) {
+            tempCounterSetBool = true
+            tempCounter = frameCounter.current + 5
+        }
+        if (readyToExplode.current === true) {
+            baseExplosionSphereSize = changeInSphereSize + baseExplosionSphereSize
+            sphereRef.current.scale.set(
+                baseExplosionSphereSize,
+                baseExplosionSphereSize,
+                baseExplosionSphereSize
+            )
+            meshRef.current.scale.set(0.5, 0.5, 0.5)
+        }
+
+        if (
+            readyToExplode.current === true &&
+            tempCounterSetBool === true &&
+            frameCounter.current === tempCounter &&
+            afterFirst === false
+        ) {
+            baseExplosionSphereSize2 = s2 + baseExplosionSphereSize2
+
+            afterFirst = true
+            sphere2Ref.current.scale.set(
+                baseExplosionSphereSize2,
+                baseExplosionSphereSize2,
+                baseExplosionSphereSize2
+            )
+        }
+
+        if (afterFirst === true && explosionDone.current === false) {
+            baseExplosionSphereSize2 = s2 + baseExplosionSphereSize2
+            sphere2Ref.current.scale.set(
+                baseExplosionSphereSize2,
+                baseExplosionSphereSize2,
+                baseExplosionSphereSize2
+            )
+
+            setTimeout(function () {
+                if (explosionDone.current === false) {
+                    explosionDone.current = true
+                    showForeground = true
+                    axeRef.current.visible = false
+                    meshRef.current.visible = false
+                    sphere2Ref.current.visible = false
+                    sphereRef.current.visible = false
+                    diamondRef.current.visible = false
+                    callbackFromParent(showForeground)
+                }
+            }, 1500)
+        }
+    })
 
     const axeClicked = () => {
         if (introAnimationDone.current === true) {
@@ -57,27 +166,61 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
     }
 
-    useEffect(() => {
-        const renderer = new WebGLRenderer({ antialias: true })
-        renderer.outputEncoding = THREE.sRGBEncoding
-    }, [])
+    const wiggleAxe = () => {
+        const zTiltSpeed = 0.04
+        const zlowTilt = 1.65
+        const zhighTilt = 1.9
+        const zlowTiltUpperBoundary = zlowTilt + zTiltSpeed * 1.5
+        const zlowTiltBottomBoundary = zlowTilt - zTiltSpeed * 1.5
+        const zhighTiltUpperBoundary = zhighTilt + zTiltSpeed * 1.5
+        const zhighTiltBottomBoundary = zhighTilt - zTiltSpeed * 1.5
+        frameCounter.current = frameCounter.current + 1
 
-    const readyToExplode = useRef(false)
-    const explosionDone = useRef(false)
-    const countAxeClicks = useRef(0)
+        floatAxeBackAndForth()
 
-    const introAnimationDone = useRef(false)
-    const isAxeClicked = useRef(false)
-    console.log('at the declaration countAxeClicks.current: ' + countAxeClicks.current)
-    console.log('at the declaration is axe clicked: ' + isAxeClicked.current)
+        if (
+            axeRef.current.rotation.z > zlowTilt &&
+            axeRef.current.rotation.z < zhighTilt &&
+            clockwiseFlag.current === false
+        ) {
+            if (zTiltCounter.current < 4 && zTiltCounter.current > -1) {
+                axeRef.current.rotation.z = axeRef.current.rotation.z + zTiltSpeed
+                if (zTiltCounter.current < 2) {
+                    axeRef.current.rotation.y = axeRef.current.rotation.y + zTiltSpeed / 10
+                    axeRef.current.rotation.x = axeRef.current.rotation.x + zTiltSpeed / 10
+                } else if (zTiltCounter.current < 4) {
+                    axeRef.current.rotation.y = axeRef.current.rotation.y - zTiltSpeed / 10
+                    axeRef.current.rotation.x = axeRef.current.rotation.x - zTiltSpeed / 10
+                }
+            }
 
-    const axeToEmeraldAnimationDone = useRef(false)
-    const clockwiseFlag = useRef(false)
+            if (
+                axeRef.current.rotation.z > zhighTiltBottomBoundary &&
+                axeRef.current.rotation.z < zhighTiltUpperBoundary
+            ) {
+                clockwiseFlag.current = true
+                zTiltCounter.current = zTiltCounter.current + 1
+            }
+        }
 
-    const zTiltCounter = useRef(0)
-    const frameCounter = useRef(0)
+        if (
+            axeRef.current.rotation.z < zhighTiltUpperBoundary &&
+            axeRef.current.rotation.z > zlowTiltBottomBoundary &&
+            clockwiseFlag.current === true
+        ) {
+            axeRef.current.rotation.z = axeRef.current.rotation.z - zTiltSpeed
 
-    const floatAxe = () => {
+            if (
+                axeRef.current.rotation.z > zlowTiltBottomBoundary &&
+                axeRef.current.rotation.z < zlowTiltUpperBoundary
+            ) {
+                clockwiseFlag.current = false
+                zTiltCounter.current = zTiltCounter.current + 1
+            }
+        }
+    }
+    const floatAxeBackAndForth = () => {
+        console.log(frameCounter.current)
         if (frameCounter.current < 76) {
             axeRef.current.rotation.x = axeRef.current.rotation.x - 0.0001
             axeRef.current.rotation.y = axeRef.current.rotation.y + 0.0001
@@ -93,15 +236,15 @@ const Animations = ({ showForeground, callbackFromParent }) => {
 
     const axeToEmeraldAnimation = () => {
         let toEmeraldFlag = false
-        backAndForth()
+        boomerangAxe()
 
-        console.log('inside axeToEmerald animation: ' + countAxeClicks.current)
+        // console.log('inside axeToEmerald animation: ' + countAxeClicks.current)
         if (countAxeClicks.current === 2) {
             toEmeraldFlag = true
-            backAndForth()
+            boomerangAxe()
         }
 
-        function backAndForth() {
+        function boomerangAxe() {
             // const flashTheAxe = () => {
             //   var light = new THREE.PointLight(0xff0000, 1, 100);
             //   light.position.set(50, 50, 50);
@@ -133,7 +276,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 frameCounter.current < 100 &&
                 countAxeClicks.current < 3
             ) {
-                //last time goes to emerald
                 if (toEmeraldFlag === false) {
                     axeRef.current.position.x = axeRef.current.position.x - 0.2
                     axeRef.current.position.y = axeRef.current.position.y - 0.05
@@ -219,147 +361,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             readyToExplode.current = true
         }
     }
-
-    const wiggleAxe = () => {
-        frameCounter.current = frameCounter.current + 1
-
-        floatAxe()
-
-        if (
-            axeRef.current.rotation.z > zlowTilt &&
-            axeRef.current.rotation.z < zhighTilt &&
-            clockwiseFlag.current === false
-        ) {
-            if (zTiltCounter.current < 4 && zTiltCounter.current > -1) {
-                axeRef.current.rotation.z = axeRef.current.rotation.z + zTiltSpeed
-                if (zTiltCounter.current < 2) {
-                    axeRef.current.rotation.y = axeRef.current.rotation.y + zTiltSpeed / 10
-                    axeRef.current.rotation.x = axeRef.current.rotation.x + zTiltSpeed / 10
-                } else if (zTiltCounter.current < 4) {
-                    axeRef.current.rotation.y = axeRef.current.rotation.y - zTiltSpeed / 10
-                    axeRef.current.rotation.x = axeRef.current.rotation.x - zTiltSpeed / 10
-                }
-            }
-
-            if (
-                axeRef.current.rotation.z > zhighTiltBottomBoundary &&
-                axeRef.current.rotation.z < zhighTiltUpperBoundary
-            ) {
-                clockwiseFlag.current = true
-                zTiltCounter.current = zTiltCounter.current + 1
-            }
-        }
-
-        if (
-            axeRef.current.rotation.z < zhighTiltUpperBoundary &&
-            axeRef.current.rotation.z > zlowTiltBottomBoundary &&
-            clockwiseFlag.current === true
-        ) {
-            axeRef.current.rotation.z = axeRef.current.rotation.z - zTiltSpeed
-
-            if (
-                axeRef.current.rotation.z > zlowTiltBottomBoundary &&
-                axeRef.current.rotation.z < zlowTiltUpperBoundary
-            ) {
-                clockwiseFlag.current = false
-                zTiltCounter.current = zTiltCounter.current + 1
-            }
-        }
-    }
-
-    useFrame(({ mouse }) => {
-        if (explosionDone.current === false) {
-            frameCounter.current = frameCounter.current + 1
-
-            if (
-                frameCounter.current > 50 &&
-                frameCounter.current <= 100 &&
-                introAnimationDone.current === false &&
-                isAxeClicked.current === false
-            ) {
-                axeRef.current.rotation.y = axeRef.current.rotation.y + 0.1255 * 2
-                if (axeRef.current.rotation.y > 12.5) {
-                    introAnimationDone.current = true
-                    frameCounter.current = 0
-                }
-            }
-
-            if (
-                isAxeClicked.current === false &&
-                introAnimationDone.current === true &&
-                axeToEmeraldAnimationDone.current === false
-            ) {
-                wiggleAxe()
-            }
-
-            if (axeToEmeraldAnimationDone.current === false) {
-                axeToEmeraldAnimation()
-            }
-
-            smashTheEmerald(mouse)
-        } else {
-            axeRef.current.position.x = 100
-        }
-    })
-
-    const sphereRef = useRef()
-    let base = 2
-    let s = 0.06
-
-    const sphere2Ref = useRef()
-    let base2 = 1
-    let s2 = 0.1
-    let tempCounter = -1
-    let tempCounterSetBool = false
-    let afterFirst = false
-
-    useFrame(() => {
-        if (readyToExplode.current === true && tempCounterSetBool === false) {
-            tempCounterSetBool = true
-            tempCounter = frameCounter.current + 5
-        }
-        if (readyToExplode.current === true) {
-            base = s + base
-            sphereRef.current.scale.set(base, base, base)
-            meshRef.current.scale.set(0.5, 0.5, 0.5)
-        }
-
-        if (
-            readyToExplode.current === true &&
-            tempCounterSetBool === true &&
-            frameCounter.current === tempCounter &&
-            afterFirst === false
-        ) {
-            base2 = s2 + base2
-
-            afterFirst = true
-            sphere2Ref.current.scale.set(base2, base2, base2)
-        }
-
-        if (afterFirst === true && explosionDone.current === false) {
-            base2 = s2 + base2
-            sphere2Ref.current.scale.set(base2, base2, base2)
-
-            setTimeout(function () {
-                if (explosionDone.current === false) {
-                    explosionDone.current = true
-                    showForeground = true
-                    axeRef.current.visible = false
-                    meshRef.current.visible = false
-                    sphere2Ref.current.visible = false
-                    sphereRef.current.visible = false
-                    diamondRef.current.visible = false
-                    callbackFromParent(showForeground)
-                }
-            }, 1500)
-        }
-    })
-
-    const [hovered, setHovered] = useState(false)
-
-    useEffect(() => {
-        document.body.style.cursor = hovered ? 'pointer' : 'auto'
-    }, [hovered])
 
     return (
         <group>
