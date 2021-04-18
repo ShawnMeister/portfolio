@@ -22,33 +22,35 @@ thetaLength
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { rotateEmerald, explosionIsDone, explosionNotDone } from './functions'
 import * as THREE from 'three'
 import { WebGLRenderer } from 'three'
 
 const Animations = ({ showForeground, callbackFromParent }) => {
-    const meshRef = useRef()
-    const diamondRef = useRef()
+    const emeraldMeshRef = useRef()
+    const emeraldSurface = useRef()
     const [hovered, setHovered] = useState(false)
     const model = useLoader(GLTFLoader, '/scene.gltf')
     const axeRef = useRef()
     const { viewport } = useThree()
 
+    //represent points in time
     const readyToExplode = useRef(false)
     const explosionDone = useRef(false)
-    const countAxeClicks = useRef(0)
+    let afterFirst = false
+    const introAnimationDone = useRef(false)
+    const isAxeClicked = useRef(false)
+    const axeToEmeraldAnimationDone = useRef(false)
 
+    const countAxeClicks = useRef(0)
     const sphereRef = useRef()
-    let baseExplosionSphereSize = 2
+
     let changeInSphereSize = 0.06
     const sphere2Ref = useRef()
     let baseExplosionSphereSize2 = 1
     let s2 = 0.1
     let tempCounter = -1
     let tempCounterSetBool = false
-    let afterFirst = false
-    const introAnimationDone = useRef(false)
-    const isAxeClicked = useRef(false)
-    const axeToEmeraldAnimationDone = useRef(false)
     const zTiltCounter = useRef(0)
     const frameCounter = useRef(0)
 
@@ -66,35 +68,19 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     }, [hovered])
 
     useFrame(({ mouse }) => {
-        //was in a different useFrame
-        if (!axeToEmeraldAnimationDone.current) {
-            meshRef.current.rotation.y += 0.05
-        }
+        if (!axeToEmeraldAnimationDone.current) rotateEmerald(emeraldMeshRef.current.rotation)
 
-        //was in 1 useFrame
         if (explosionDone.current === false) {
             frameCounter.current = frameCounter.current + 1
 
-            if (
-                frameCounter.current > 50 &&
-                frameCounter.current <= 100 &&
-                introAnimationDone.current === false &&
-                isAxeClicked.current === false
-            ) {
-                axeRef.current.rotation.y = axeRef.current.rotation.y + 0.1255 * 2
-                if (axeRef.current.rotation.y > 12.5) {
-                    introAnimationDone.current = true
-                    frameCounter.current = 0
-                }
-            }
-
-            if (
-                isAxeClicked.current === false &&
-                introAnimationDone.current === true &&
-                axeToEmeraldAnimationDone.current === false
-            ) {
-                wiggleAxe()
-            }
+            explosionNotDone(
+                frameCounter,
+                introAnimationDone,
+                isAxeClicked.current,
+                axeRef.current.rotation,
+                axeToEmeraldAnimationDone.current,
+                wiggleAxe
+            )
 
             if (axeToEmeraldAnimationDone.current === false) {
                 axeToEmeraldAnimation()
@@ -102,7 +88,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
 
             smashTheEmerald(mouse)
         } else {
-            axeRef.current.position.x = 100
+            explosionIsDone(axeRef.current.position)
         }
 
         // was in another useFrame
@@ -111,13 +97,14 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             tempCounter = frameCounter.current + 5
         }
         if (readyToExplode.current === true) {
+            let baseExplosionSphereSize = 2
             baseExplosionSphereSize = changeInSphereSize + baseExplosionSphereSize
             sphereRef.current.scale.set(
                 baseExplosionSphereSize,
                 baseExplosionSphereSize,
                 baseExplosionSphereSize
             )
-            meshRef.current.scale.set(0.5, 0.5, 0.5)
+            emeraldMeshRef.current.scale.set(0.5, 0.5, 0.5)
         }
 
         if (
@@ -149,10 +136,10 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                     explosionDone.current = true
                     showForeground = true
                     axeRef.current.visible = false
-                    meshRef.current.visible = false
+                    emeraldMeshRef.current.visible = false
                     sphere2Ref.current.visible = false
                     sphereRef.current.visible = false
-                    diamondRef.current.visible = false
+                    emeraldSurface.current.visible = false
                     callbackFromParent(showForeground)
                 }
             }, 1500)
@@ -220,7 +207,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
     }
     const floatAxeBackAndForth = () => {
-        console.log(frameCounter.current)
         if (frameCounter.current < 76) {
             axeRef.current.rotation.x = axeRef.current.rotation.x - 0.0001
             axeRef.current.rotation.y = axeRef.current.rotation.y + 0.0001
@@ -238,7 +224,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         let toEmeraldFlag = false
         boomerangAxe()
 
-        // console.log('inside axeToEmerald animation: ' + countAxeClicks.current)
         if (countAxeClicks.current === 2) {
             toEmeraldFlag = true
             boomerangAxe()
@@ -289,7 +274,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                         axeRef.current.position.z += 0.5
                         axeRef.current.rotation.z += 0.15
 
-                        meshRef.current.position.z += 0.5
+                        emeraldMeshRef.current.position.z += 0.5
                         isAxeClicked.current = false
                     }
                 }
@@ -395,7 +380,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 <meshBasicMaterial color={0x39ff14} attach="material" />
             </mesh>
 
-            <mesh ref={meshRef} position={position}>
+            <mesh ref={emeraldMeshRef} position={position}>
                 <sphereBufferGeometry attach="geometry" args={[1, 6.3, 6.3, 6, 6.3, 6.3, 6.3]} />
 
                 <meshStandardMaterial
@@ -403,7 +388,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                     color={0x39ff14}
                     roughness={0.5}
                     metalness={0.5}
-                    ref={diamondRef}
+                    ref={emeraldSurface}
                 />
             </mesh>
         </group>
