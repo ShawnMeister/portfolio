@@ -19,7 +19,7 @@ thetaStart
 thetaLength
 */
 
-import { useFrame, useLoader, useThree } from 'react-three-fiber'
+import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from 'three'
