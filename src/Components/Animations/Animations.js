@@ -59,6 +59,9 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     useEffect(() => {
         const renderer = new WebGLRenderer({ antialias: true })
         renderer.outputEncoding = THREE.sRGBEncoding
+    }, [])
+
+    useEffect(() => {
         document.body.style.cursor = hovered ? 'pointer' : 'auto'
     }, [hovered])
 
