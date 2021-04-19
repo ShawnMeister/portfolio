@@ -30,6 +30,7 @@ const App = (props) => {
     const myCallback = (dataFromChild) => {
         setShowForeground(dataFromChild)
         setRedirectTo('/home')
+        document.getElementById('audio-player').volume = 0.125
     }
 
     const instructionsDone = (dataFromChild) => {
@@ -167,7 +168,7 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
         var audioPlayer = document.getElementById('audio-player')
 
         audioPlayer.play()
-        audioPlayer.volume = 0.3
+        audioPlayer.volume = 0.25
     }
 
     return (

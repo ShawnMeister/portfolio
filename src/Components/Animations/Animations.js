@@ -3,9 +3,9 @@
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { rotateEmerald, explosionIsDone } from './functions'
+import { rotateEmerald } from './functions'
 import * as THREE from 'three'
-import { FlatShading, WebGLRenderer } from 'three'
+import { WebGLRenderer } from 'three'
 
 const Animations = ({ showForeground, callbackFromParent }) => {
     const [hovered, setHovered] = useState(false)
@@ -15,12 +15,10 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     const readyToExplode = useRef(false)
     const explosionDone = useRef(false)
     const interactiveAnimationHappening = useRef(false)
-    let afterFirst = false
+    let afterFirstExplosion = false
     const introAnimationDone = useRef(false)
-    const isAxeClicked = useRef(false)
     const axeToEmeraldAnimationDone = useRef(false)
     const lightFlashesDone = useRef(false)
-    const secondAxeBoomerang = useRef(false)
 
     const countAxeClicks = useRef(0)
 
@@ -126,7 +124,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
 
         //Flash the axe with light
         if (
-            interactiveAnimationHappening.current === false &&
+            interactiveAnimationHappening.current === true &&
             axeToEmeraldAnimationDone.current === true &&
             lightFlashesDone.current === false
         ) {
@@ -135,11 +133,14 @@ const Animations = ({ showForeground, callbackFromParent }) => {
 
         /* USER EVENT AXE CLICK */
         // axe hits the emerald three times
-        if (lightFlashesDone.current === true) smashTheEmerald(mouse)
+        if (lightFlashesDone.current === true) {
+            smashTheEmerald(mouse)
+        }
 
         // EXPLODE Emerald
         if (lightFlashesDone.current === true) emeraldExplodes()
     })
+
     const emeraldExplodes = () => {
         if (readyToExplode.current === true && tempCounterSetBool === false) {
             tempCounterSetBool = true
@@ -154,17 +155,18 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 baseExplosionSphereSize
             )
             emeraldMeshRef.current.scale.set(0.2, 0.2, 0.2)
+            axeRef.current.position.x = 100
         }
 
         if (
             readyToExplode.current === true &&
             tempCounterSetBool === true &&
             frameCounter.current === tempCounter &&
-            afterFirst === false
+            afterFirstExplosion === false
         ) {
             baseExplosionSphereSize2 = changeInSphereSize2 + baseExplosionSphereSize2
 
-            afterFirst = true
+            afterFirstExplosion = true
             sphere2Ref.current.scale.set(
                 baseExplosionSphereSize2,
                 baseExplosionSphereSize2,
@@ -172,7 +174,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             )
         }
 
-        if (afterFirst === true && explosionDone.current === false) {
+        if (afterFirstExplosion === true && explosionDone.current === false) {
             baseExplosionSphereSize2 = changeInSphereSize2 + baseExplosionSphereSize2
             sphere2Ref.current.scale.set(
                 baseExplosionSphereSize2,
