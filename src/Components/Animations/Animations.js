@@ -99,7 +99,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
 
         /* USER EVENT AXE CLICK */
-
         // boomerang axe right and left for y frames
         // bring axe closer to user for y frames
         if (interactiveAnimationHappening.current === true && countAxeClicks.current === 2) {
@@ -115,7 +114,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
 
         /* USER EVENT AXE CLICK */
-        // continue spinning emerald for z frames
         // boomerang axe right and left for z frames
         // bring axe closer to EMERALD for z frames
         if (interactiveAnimationHappening.current === true && countAxeClicks.current === 3) {
