@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import './App.scss'
-import React, { useState, Suspense } from 'react'
+import React, { useState, Suspense, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import BlueSpheres from './Components/BlueSpheres'
 import WhiteSpheres from './Components/WhiteSpheres'
@@ -17,6 +18,7 @@ import { isMobile } from 'react-device-detect'
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom'
 import BottomForeground from './Components/BottomForeground'
 import miniAxe from './Assets/images/DestinyAxeSmall.png'
+import dailyGrindSong from './Assets/audio/daily-grind-instrumental.mp3'
 // import digitalStatic from "./Assets/videos/digital-static.mp4";
 // import jumboBg from "./Assets/images/jumbo-bg.jpg";
 
@@ -28,6 +30,7 @@ const App = (props) => {
     const myCallback = (dataFromChild) => {
         setShowForeground(dataFromChild)
         setRedirectTo('/home')
+        document.getElementById('audio-player').volume = 0.125
     }
 
     const instructionsDone = (dataFromChild) => {
@@ -40,6 +43,11 @@ const App = (props) => {
     return (
         <Router>
             <div className="App">
+                <audio id="audio-player">
+                    <track kind="captions" srcLang="en" label="Daily Grind Shawn's Song" />
+                    <source src={dailyGrindSong} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                </audio>
                 {showForeground ? <Redirect to={redirectTo} /> : null}
                 <Switch>
                     {isMobile ? (
@@ -148,10 +156,6 @@ const HeroSection = () => {
                         CONTACT ME HERE
                     </a>
                 </div>
-
-                {/* <video autoPlay={true} muted={true} loop={false}>
-          <source src={digitalStatic} type="video/mp4" />
-        </video> */}
             </div>
         </div>
     )
@@ -161,6 +165,10 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
     const sayHello = (dataFromChild) => {
         isDisplayed = true
         instructionsDoneCallback(isDisplayed)
+        var audioPlayer = document.getElementById('audio-player')
+
+        audioPlayer.play()
+        audioPlayer.volume = 0.25
     }
 
     return (
@@ -173,17 +181,14 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
                         <ol>
                             <div className="flex row">
                                 <li className="mt-2">
-                                    Click the Axe until it
-                                    <br /> sticks in the Emerald.
+                                    Keep Clicking the Axe
+                                    <br />
                                 </li>
                                 <img alt="axe" className="ml-3" src={miniAxe} />
                             </div>
                             <br />
                             <div className="flex row">
-                                <li>
-                                    Click the Axe one more time <br />
-                                    and whack the Emerald!🔥🟢🔥
-                                </li>
+                                <li>Whack the Emerald!🔥🟢🔥</li>
                             </div>
                         </ol>
                     </h4>
