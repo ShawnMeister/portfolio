@@ -19,8 +19,12 @@
   /* the cursor is some kind of work around..*/
   /* cursor: url('./images/BattleAxe/DestinyAxeSmall.png'), auto; */
   overflow: hidden;
-
+  background-color: #3a4147;
   font-family: monospace;
+}
+
+html,body{
+  background-color: #3a4147;
 }
 
 .container {
@@ -201,6 +205,7 @@
   right: 0px;
   margin-right: 5vw;
   margin-bottom: 5vh;
+  z-index:999;
 }
 
 .opacity-0 {
