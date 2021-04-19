@@ -7,7 +7,7 @@ import { rotateEmerald } from './functions'
 import * as THREE from 'three'
 import { WebGLRenderer } from 'three'
 
-const Animations = ({ showForeground, callbackFromParent }) => {
+const Animations = ({ callbackFromParent, smashPromptUserClicked }) => {
     const [hovered, setHovered] = useState(false)
     const model = useLoader(GLTFLoader, '/scene.gltf')
     const { viewport } = useThree()
@@ -19,6 +19,8 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     const introAnimationDone = useRef(false)
     const axeToEmeraldAnimationDone = useRef(false)
     const lightFlashesDone = useRef(false)
+    const promptSmashDialogPoppedUp = useRef(false)
+    const smashPromptUserClickedRef = useRef(false)
 
     const countAxeClicks = useRef(0)
 
@@ -120,12 +122,25 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             axeToEmeraldAnimation()
         }
 
-        //Flash the axe with light
+        // prompt user to smash emerald
         if (
             interactiveAnimationHappening.current === false &&
             axeToEmeraldAnimationDone.current === true &&
-            lightFlashesDone.current === false
+            promptSmashDialogPoppedUp.current === false
         ) {
+            setTimeout(() => {
+                promptUserToSmash()
+            }, 500)
+        }
+
+        /* USER EVENT WAIT FOR SMASH PROMPT BUTTON CLICK */
+        if (smashPromptUserClicked === true && smashPromptUserClickedRef.current === false) {
+            smashPromptUserClickedRef.current = true
+            frameCounter.current = 0
+        }
+
+        //Flash the axe with light
+        if (lightFlashesDone.current === false && smashPromptUserClickedRef.current === true) {
             flashTheAxe()
         }
 
@@ -183,13 +198,12 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             setTimeout(function () {
                 if (explosionDone.current === false) {
                     explosionDone.current = true
-                    showForeground = true
                     axeRef.current.visible = false
                     emeraldMeshRef.current.visible = false
                     sphere2Ref.current.visible = false
                     sphereRef.current.visible = false
                     emeraldSurface.current.visible = false
-                    callbackFromParent(showForeground)
+                    callbackFromParent('SHOWFOREGROUND')
                 }
             }, 1500)
         }
@@ -216,17 +230,23 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     }
     const flashTheAxe = () => {
         if (
-            (frameCounter.current >= 20 && frameCounter.current <= 40) ||
-            (frameCounter.current >= 60 && frameCounter.current <= 80)
+            (frameCounter.current >= 20 && frameCounter.current <= 35) ||
+            (frameCounter.current >= 50 && frameCounter.current <= 65) ||
+            (frameCounter.current >= 80 && frameCounter.current <= 95)
         ) {
             lightRef.current.visible = true
-        } else if (frameCounter.current > 80) {
+        } else if (frameCounter.current > 95) {
             lightRef.current.visible = false
             lightFlashesDone.current = true
             frameCounter.current = 0
         } else {
             lightRef.current.visible = false
         }
+    }
+
+    const promptUserToSmash = () => {
+        callbackFromParent('PROMPTSMASH')
+        promptSmashDialogPoppedUp.current = true
     }
 
     const wiggleAxe = () => {
@@ -325,7 +345,6 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 axeRef.current.position.x = axeRef.current.position.x - 0.2
                 axeRef.current.position.y = axeRef.current.position.y - 0.05
                 axeRef.current.rotation.z = axeRef.current.rotation.z + 1.25
-                console.log(axeRef.current.position.x)
                 if (axeRef.current.position.x < 1.2) {
                     interactiveAnimationHappening.current = false
                     frameCounter.current = 0

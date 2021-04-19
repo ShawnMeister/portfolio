@@ -17,6 +17,7 @@ import { isMobile } from 'react-device-detect'
 
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom'
 import BottomForeground from './Components/BottomForeground'
+import bigAxe from './Assets/images/destinyAxeBig.png'
 import miniAxe from './Assets/images/DestinyAxeSmall.png'
 import dailyGrindSong from './Assets/audio/daily-grind-instrumental.mp3'
 // import digitalStatic from "./Assets/videos/digital-static.mp4";
@@ -24,17 +25,28 @@ import dailyGrindSong from './Assets/audio/daily-grind-instrumental.mp3'
 
 const App = (props) => {
     const [showForeground, setShowForeground] = useState(false)
+    const [showSmashPrompt, setShowSmashPrompt] = useState(false)
+    const [smashPromptUserClicked, setSmashPromptUserClicked] = useState(false)
     const [isDisplayed, setIsDisplayed] = useState(false)
     const [redirectTo, setRedirectTo] = useState('/')
 
     const myCallback = (dataFromChild) => {
-        setShowForeground(dataFromChild)
-        setRedirectTo('/home')
-        document.getElementById('audio-player').volume = 0.125
+        if (dataFromChild === 'PROMPTSMASH') {
+            setShowSmashPrompt(true)
+        } else if (dataFromChild === 'SHOWFOREGROUND') {
+            setShowForeground(true)
+            setRedirectTo('/home')
+            document.getElementById('audio-player').volume = 0.075
+        }
     }
 
     const instructionsDone = (dataFromChild) => {
         setIsDisplayed(dataFromChild)
+    }
+
+    const smashPromptDone = (dataFromChild) => {
+        setSmashPromptUserClicked(true)
+        setShowSmashPrompt(dataFromChild)
     }
 
     const suspense = { id: 0 }
@@ -69,6 +81,8 @@ const App = (props) => {
                                         key={animations.id}
                                         callbackFromParent={myCallback}
                                         showForeground={showForeground}
+                                        showSmashPrompt={showSmashPrompt}
+                                        smashPromptUserClicked={smashPromptUserClicked}
                                     />
                                 </Suspense>
                             ) : null}
@@ -87,6 +101,20 @@ const App = (props) => {
                                 </div>
                             </div>
                         )}
+                        {showSmashPrompt ? (
+                            <div className="customContainer  ">
+                                <div className="row justify-content-center h-100 align-content-center ">
+                                    <div className=" ">
+                                        <div className="">
+                                            <SmashPrompt
+                                                smashPromptDoneCallback={smashPromptDone}
+                                                showSmashPrompt={showSmashPrompt}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : null}
 
                         <div className="skipIntro">
                             <Button className="opacity-3" variant="dark">
@@ -162,7 +190,7 @@ const HeroSection = () => {
 }
 
 const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
-    const sayHello = (dataFromChild) => {
+    const handleClick = (dataFromChild) => {
         isDisplayed = true
         instructionsDoneCallback(isDisplayed)
         var audioPlayer = document.getElementById('audio-player')
@@ -175,26 +203,22 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
         <div>
             <div className=" jumboTronInstructions ">
                 <div className="d-flex flex-column">
-                    <h2 className="jumbo-header">How to Smash the Emerald</h2>
+                    <h2 className="jumbo-header">Keep Clicking the Axe</h2>
                     <br />
                     <h4 className="jumbo-content text-left col mb-3 mx-auto">
-                        <ol>
-                            <div className="flex row">
-                                <li className="mt-2">
-                                    Keep Clicking the Axe
-                                    <br />
-                                </li>
-                                <img alt="axe" className="ml-3" src={miniAxe} />
-                            </div>
-                            <br />
-                            <div className="flex row">
-                                <li>Whack the Emerald!🔥🟢🔥</li>
-                            </div>
-                        </ol>
+                        <div className="flex row">
+                            <img
+                                alt="axe"
+                                className="m-auto"
+                                style={{ width: '200px' }}
+                                src={bigAxe}
+                            />
+                        </div>
+                        <br />
                     </h4>
 
                     <div className=" col align-self-center">
-                        <button onClick={sayHello.bind()} className="cta-btn ">
+                        <button onClick={handleClick.bind()} className="cta-btn ">
                             Got it!
                         </button>
                     </div>
@@ -203,6 +227,46 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
                 {/* <video autoPlay={true} muted={true} loop={false}>
           <source src={digitalStatic} type="video/mp4" />
         </video> */}
+            </div>
+        </div>
+    )
+}
+const SmashPrompt = ({ smashPromptDoneCallback, showSmashPrompt }) => {
+    const handleClick = (dataFromChild) => {
+        showSmashPrompt = false
+        smashPromptDoneCallback(showSmashPrompt)
+
+        var audioPlayer = document.getElementById('audio-player')
+    }
+
+    return (
+        <div>
+            <div className=" jumboTronInstructions ">
+                <div className="d-flex flex-column">
+                    <h2>Click the Axe</h2>
+                    <br />
+
+                    <h2 className="jumbo-content text-left col mb-5 mx-auto">
+                        <div className="flex row mb-5">Smash the Emerald </div>
+                        <div className="flex row justify-content-center">
+                            <span>
+                                🔥🟢🔥{' '}
+                                <img
+                                    alt="axe"
+                                    className="m-auto"
+                                    style={{ width: '100px', transform: 'rotate(55deg)' }}
+                                    src={bigAxe}
+                                />
+                            </span>
+                        </div>
+                    </h2>
+
+                    <div className=" col align-self-center">
+                        <button onClick={handleClick.bind()} className="cta-btn ">
+                            Got it!
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -260,10 +324,15 @@ const NavSection = () => {
 const CanvasAndAnimations = (props) => {
     const [redirectTo, setRedirectTo] = useState('/')
     const [showForeground, setShowForeground] = useState(false)
+    const [showSmashPrompt, setShowSmashPrompt] = useState(false)
 
     const myCallback = (dataFromChild) => {
-        setShowForeground(dataFromChild)
-        setRedirectTo('/home')
+        if (dataFromChild === 'PROMPTSMASH') {
+            setShowSmashPrompt(true)
+        } else if (dataFromChild === 'SHOWFOREGROUND') {
+            setShowForeground(true)
+            setRedirectTo('/home')
+        }
     }
 
     return (
@@ -274,7 +343,11 @@ const CanvasAndAnimations = (props) => {
             <Environment />
 
             <Suspense fallback={null}>
-                <Animations callbackFromParent={myCallback} showForeground={showForeground} />
+                <Animations
+                    callbackFromParent={myCallback}
+                    showForeground={showForeground}
+                    showSmashPrompt={showSmashPrompt}
+                />
             </Suspense>
         </Canvas>
     )
