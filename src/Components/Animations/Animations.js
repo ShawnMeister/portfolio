@@ -124,7 +124,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
 
         //Flash the axe with light
         if (
-            interactiveAnimationHappening.current === true &&
+            interactiveAnimationHappening.current === false &&
             axeToEmeraldAnimationDone.current === true &&
             lightFlashesDone.current === false
         ) {
