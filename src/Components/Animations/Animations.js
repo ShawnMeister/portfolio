@@ -134,8 +134,8 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         }
 
         /* USER EVENT AXE CLICK */
-        // axe hits emerald three times
-        smashTheEmerald(mouse)
+        // axe hits the emerald three times
+        if (lightFlashesDone.current === true) smashTheEmerald(mouse)
 
         // EXPLODE Emerald
         emeraldExplodes()
@@ -313,7 +313,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             if (toEmeraldFlag === false) {
                 axeRef.current.position.z = axeRef.current.position.z + 0.01
             } else if (toEmeraldFlag === true) {
-                axeRef.current.position.z = axeRef.current.position.z - 0.2
+                axeRef.current.position.z = axeRef.current.position.z - 0.15
                 axeRef.current.rotation.z = axeRef.current.rotation.z - 1.25
             }
             frameCounter.current = frameCounter.current + 1
@@ -326,12 +326,14 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 axeRef.current.position.y = axeRef.current.position.y - 0.05
                 axeRef.current.rotation.z = axeRef.current.rotation.z + 1.25
                 console.log(axeRef.current.position.x)
-                if (axeRef.current.position.x < 1.4) {
+                if (axeRef.current.position.x < 1.2) {
                     interactiveAnimationHappening.current = false
                     frameCounter.current = 0
-                    axeRef.current.position.z += 2.75
+                    axeRef.current.position.z += 1.25
+                    axeRef.current.rotation.z -= 1
+                    axeRef.current.position.y += 0.25
                     emeraldMeshRef.current.scale.set(1.25, 1.25, 1.25)
-                    emeraldMeshRef.current.position.z += 0.7
+                    emeraldMeshRef.current.position.z += 0.2
                     axeToEmeraldAnimationDone.current = true
                 }
             }
@@ -418,7 +420,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 />
             </mesh>
             <mesh ref={lightRef}>
-                <directionalLight castShadow={true} intensity={1} position={[-1, 1, 1]} />
+                <directionalLight castShadow={true} intensity={1} position={[-1, -1, 1]} />
             </mesh>
             <mesh ref={sphereRef}>
                 <sphereBufferGeometry

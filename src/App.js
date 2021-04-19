@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import './App.scss'
@@ -148,10 +149,6 @@ const HeroSection = () => {
                         CONTACT ME HERE
                     </a>
                 </div>
-
-                {/* <video autoPlay={true} muted={true} loop={false}>
-          <source src={digitalStatic} type="video/mp4" />
-        </video> */}
             </div>
         </div>
     )
@@ -173,17 +170,14 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
                         <ol>
                             <div className="flex row">
                                 <li className="mt-2">
-                                    Click the Axe until it
-                                    <br /> sticks in the Emerald.
+                                    Keep Clicking the Axe
+                                    <br />
                                 </li>
                                 <img alt="axe" className="ml-3" src={miniAxe} />
                             </div>
                             <br />
                             <div className="flex row">
-                                <li>
-                                    Click the Axe one more time <br />
-                                    and whack the Emerald!🔥🟢🔥
-                                </li>
+                                <li>Whack the Emerald!🔥🟢🔥</li>
                             </div>
                         </ol>
                     </h4>
