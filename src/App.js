@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import './App.scss'
-import React, { useState, Suspense } from 'react'
+import React, { useState, Suspense, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import BlueSpheres from './Components/BlueSpheres'
 import WhiteSpheres from './Components/WhiteSpheres'
@@ -18,6 +18,7 @@ import { isMobile } from 'react-device-detect'
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom'
 import BottomForeground from './Components/BottomForeground'
 import miniAxe from './Assets/images/DestinyAxeSmall.png'
+import dailyGrindSong from './Assets/audio/daily-grind-instrumental.mp3'
 // import digitalStatic from "./Assets/videos/digital-static.mp4";
 // import jumboBg from "./Assets/images/jumbo-bg.jpg";
 
@@ -41,6 +42,11 @@ const App = (props) => {
     return (
         <Router>
             <div className="App">
+                <audio id="audio-player">
+                    <track kind="captions" srcLang="en" label="Daily Grind Shawn's Song" />
+                    <source src={dailyGrindSong} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                </audio>
                 {showForeground ? <Redirect to={redirectTo} /> : null}
                 <Switch>
                     {isMobile ? (
@@ -158,6 +164,10 @@ const Instructions = ({ instructionsDoneCallback, isDisplayed }) => {
     const sayHello = (dataFromChild) => {
         isDisplayed = true
         instructionsDoneCallback(isDisplayed)
+        var audioPlayer = document.getElementById('audio-player')
+
+        audioPlayer.play()
+        audioPlayer.volume = 0.3
     }
 
     return (

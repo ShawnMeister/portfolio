@@ -138,7 +138,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
         if (lightFlashesDone.current === true) smashTheEmerald(mouse)
 
         // EXPLODE Emerald
-        emeraldExplodes()
+        if (lightFlashesDone.current === true) emeraldExplodes()
     })
     const emeraldExplodes = () => {
         if (readyToExplode.current === true && tempCounterSetBool === false) {
@@ -153,7 +153,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
                 baseExplosionSphereSize,
                 baseExplosionSphereSize
             )
-            emeraldMeshRef.current.scale.set(0.5, 0.5, 0.5)
+            emeraldMeshRef.current.scale.set(0.2, 0.2, 0.2)
         }
 
         if (
@@ -216,11 +216,11 @@ const Animations = ({ showForeground, callbackFromParent }) => {
     }
     const flashTheAxe = () => {
         if (
-            frameCounter.current <= 20 ||
-            (frameCounter.current >= 40 && frameCounter.current <= 60)
+            (frameCounter.current >= 20 && frameCounter.current <= 40) ||
+            (frameCounter.current >= 60 && frameCounter.current <= 80)
         ) {
             lightRef.current.visible = true
-        } else if (frameCounter.current > 60) {
+        } else if (frameCounter.current > 80) {
             lightRef.current.visible = false
             lightFlashesDone.current = true
             frameCounter.current = 0
@@ -401,6 +401,7 @@ const Animations = ({ showForeground, callbackFromParent }) => {
             lightFlashesDone.current === true &&
             frameCounter.current > 100
         ) {
+            frameCounter.current = 0
             readyToExplode.current = true
         }
     }
