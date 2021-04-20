@@ -434,9 +434,9 @@ const Animations = ({ callbackFromParent, smashPromptUserClicked }) => {
                     position={[0, 0, 0]}
                     rotation={[0, 0, 1.75]}
                     scale={[10, 10, 10]}
-                    onClick={axeClicked}
                     onPointerOver={() => setHovered(true)}
                     onPointerOut={() => setHovered(false)}
+                    onPointerDown={axeClicked}
                 />
             </mesh>
             <mesh ref={lightRef}>
